@@ -1,0 +1,210 @@
+/* ==========================================================
+   RoSys Florist – login & register
+   Place at: resources/css/auth.css
+   (uses the variables + nav styles from homepage.css)
+   ========================================================== */
+
+.auth-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.auth-page {
+    flex: 1;
+    width: 100%;
+    padding-top: 76px;
+    padding-bottom: 96px;
+}
+
+.auth-footer {
+    height: 56px;
+    background: #fbf1ec;
+}
+
+/* ---------- Login layout ---------- */
+.auth-login {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 110px;
+    align-items: start;
+}
+
+.auth-visual {
+    position: relative;
+    aspect-ratio: 5 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #e9dcd3;
+}
+
+.auth-visual img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auth-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(43, 30, 24, 0.55), rgba(43, 30, 24, 0) 55%);
+}
+
+.auth-visual-caption {
+    position: absolute;
+    z-index: 1;
+    left: 32px;
+    bottom: 26px;
+    color: #fff;
+}
+
+.auth-visual-caption span {
+    display: block;
+    font-size: 0.56rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 4px;
+}
+
+.auth-visual-caption strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2.2rem;
+    line-height: 1.1;
+}
+
+/* ---------- Form ---------- */
+.auth-center {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.auth-form .eyebrow {
+    margin-bottom: 14px;
+}
+
+.auth-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2.6rem;
+    line-height: 1.1;
+    margin-bottom: 30px;
+}
+
+.auth-title--lg {
+    font-size: 2.9rem;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field label {
+    display: block;
+    font-size: 0.58rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.field input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(111, 86, 70, 0.12);
+}
+
+.field-error {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #b3402f;
+}
+
+.auth-status {
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: #4d7a55;
+}
+
+.auth-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0 20px;
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.auth-row .check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.auth-row input[type="checkbox"] {
+    accent-color: var(--accent);
+}
+
+.auth-row a:hover {
+    color: var(--ink);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+button.btn {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.auth-form form .btn-block {
+    margin-top: 6px;
+}
+
+.auth-alt {
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.auth-alt a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 1px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .auth-page {
+        padding-top: 40px;
+        padding-bottom: 64px;
+    }
+
+    .auth-login {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .auth-form {
+        max-width: 420px;
+    }
+}
