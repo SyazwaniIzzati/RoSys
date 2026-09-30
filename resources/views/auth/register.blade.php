@@ -19,6 +19,12 @@
             </div>
 
             <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" required autocomplete="tel">
+                @error('phone') <p class="field-error">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="field">
                 <label for="address">Address</label>
                 <input id="address" type="text" name="address" value="{{ old('address') }}" required autocomplete="street-address">
                 @error('address') <p class="field-error">{{ $message }}</p> @enderror
