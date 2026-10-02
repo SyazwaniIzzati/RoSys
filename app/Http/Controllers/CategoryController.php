@@ -15,6 +15,14 @@ class CategoryController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
+    public function customerIndex()
+    {
+        $categories = Category::orderBy('category_name')->get();
+        $categories = Category::orderBy('description')->get();
+
+        return view('dashboard', compact('categories'));
+    }
+
     // Show create page
     // public function create()
     // {
@@ -36,11 +44,11 @@ class CategoryController extends Controller
             ->with('success', 'Category created successfully.');
     }
 
-    // Show edit page
-    public function edit(Category $category)
-    {
-        return view('admin.categories.edit', compact('category'));
-    }
+    // // Show edit page
+    // public function edit(Category $category)
+    // {
+    //     return view('admin.categories.edit', compact('category'));
+    // }
 
     // Update category
     public function update(Request $request, Category $category)

@@ -1,17 +1,28 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<x-florist-layout>
+    <h1 class="page-title">Welcome to RosSys</h1>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+    <p class="page-lead">
+        Choose a flower option to start exploring our collection.
+    </p>
+
+    <div class="category-cards">
+        @foreach ($categories as $category)
+
+            <a href="#" class="category-card">
+                <div class="category-card-content">
+                    <h2>
+                        {{ $category->category_name }}
+                    </h2>
+
+                    <p>
+                        {{ $category->description }}
+                    </p>
+
+                    <span class="category-card-link">
+                        Explore →
+                    </span>
                 </div>
-            </div>
-        </div>
+            </a>
+        @endforeach
     </div>
-</x-app-layout>
+</x-florist-layout>
