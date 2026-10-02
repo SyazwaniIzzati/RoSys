@@ -1,0 +1,81 @@
+.rosys-modal .modal-content {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px -20px rgba(90, 70, 40, 0.35);
+}
+
+.rosys-modal .modal-header {
+    padding: 26px 30px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.rosys-modal .modal-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--ink);
+}
+
+.rosys-modal .modal-body {
+    padding: 26px 30px;
+}
+
+.rosys-modal .modal-footer {
+    padding: 18px 30px 26px;
+    border-top: 1px solid var(--line);
+}
+
+/* ---------- Modal Buttons ---------- */
+
+.rosys-modal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 38px;
+    min-width: 100px;
+    padding: 0 20px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    font-family: var(--font-body);
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Cancel */
+.rosys-modal-btn-secondary {
+    background-color: transparent !important;
+    border-color: var(--line) !important;
+    color: var(--muted) !important;
+}
+
+.rosys-modal-btn-secondary:hover {
+    background-color: var(--soft) !important;
+    border-color: var(--accent) !important;
+    color: var(--ink) !important;
+}
+
+/* Save */
+.rosys-modal-btn-primary {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #fffdf9 !important;
+}
+
+.rosys-modal-btn-primary:hover {
+    background-color: #5d4739 !important;
+    border-color: #5d4739 !important;
+    color: #fffdf9 !important;
+}
