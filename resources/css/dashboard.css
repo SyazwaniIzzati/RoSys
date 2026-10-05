@@ -1,0 +1,332 @@
+/* ==========================================================
+   RoSys Customer Dashboard
+   ========================================================== */
+
+
+/* ==========================================================
+   Dashboard Page
+   ========================================================== */
+
+.auth-page {
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+}
+
+
+/* ==========================================================
+   Dashboard Heading
+   ========================================================== */
+
+.page-title {
+    font-family: var(--font-display);
+
+    font-weight: 400;
+
+    font-size: 3.5rem;
+
+    line-height: 1.2;
+
+    color: var(--ink);
+
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
+
+.page-lead {
+    max-width: 42rem;
+
+    font-family: var(--font-body);
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+
+    color: var(--muted);
+
+    margin-bottom: 0;
+}
+
+
+/* ==========================================================
+   Category Cards
+   ========================================================== */
+
+.category-cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 1.5rem;
+
+    margin-top: 3rem;
+}
+
+.category-card {
+    display: flex;
+
+    min-height: 280px;
+
+    padding: 2rem;
+
+    background: var(--white);
+
+    border: 1px solid var(--line);
+
+    border-radius: 1.25rem;
+
+    color: var(--ink);
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 20px 40px -20px rgba(111, 86, 70, 0.3);
+}
+
+
+/* ==========================================================
+   Category Card Content
+   ========================================================== */
+
+.category-card-content {
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+}
+
+
+/* ---------- Category Name ---------- */
+
+.category-card h2 {
+    margin: 0 0 1rem;
+
+    font-family: var(--font-display);
+
+    font-size: 2rem;
+
+    font-weight: 400;
+
+    line-height: 1.1;
+
+    color: var(--ink);
+}
+
+
+/* ---------- Category Description ---------- */
+
+.category-card p {
+    margin: 0;
+
+    font-family: var(--font-body);
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+
+    color: var(--muted);
+}
+
+
+/* ---------- Explore Link ---------- */
+
+.category-card-link {
+    margin-top: auto;
+
+    padding-top: 2rem;
+
+    font-family: var(--font-body);
+
+    font-size: 0.65rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+
+    color: var(--accent);
+}
+
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (max-width: 960px) {
+
+    .category-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        min-height: 220px;
+    }
+}
+
+
+/* ==========================================================
+   Small Screens
+   ========================================================== */
+
+@media (max-width: 480px) {
+
+    .auth-page {
+        padding-top: 2.5rem;
+    }
+
+    .page-title {
+        font-size: 2.8rem;
+    }
+
+    .category-card {
+        padding: 1.5rem;
+    }
+
+    .category-card h2 {
+        font-size: 1.8rem;
+    }
+}
+/* ==========================================================
+   Breeze User Dropdown
+   ========================================================== */
+
+/* ---------- Username trigger ---------- */
+
+.user-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.25rem;
+
+    padding: 0.5rem 0.75rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.user-dropdown-trigger:hover {
+    color: #374151;
+    background-color: #f9fafb;
+}
+
+
+/* ---------- Dropdown arrow ---------- */
+
+.user-dropdown-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+
+    flex-shrink: 0;
+}
+
+
+/* ---------- Dropdown box ---------- */
+
+.nav-actions .absolute {
+    background: #ffffff;
+
+    border-radius: 0.375rem;
+
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+    z-index: 50;
+}
+
+
+/* ---------- Dropdown content ---------- */
+
+.nav-actions .absolute > div {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+
+    border-radius: 0.375rem;
+}
+
+
+/* ---------- Profile / Log Out ---------- */
+
+.nav-actions .absolute a {
+    display: block;
+
+    width: 100%;
+
+    padding: 0.5rem 1rem;
+
+    color: #374151;
+
+    font-family: var(--font-body);
+
+    font-size: 0.875rem;
+    font-weight: 400;
+
+    line-height: 1.25rem;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.nav-actions .absolute a:hover {
+    background-color: #f3f4f6;
+
+    color: #374151;
+}
+
+
+/*
+ * Prevent navbar SVG styling from
+ * affecting SVGs inside the dropdown.
+ */
+.nav-actions .absolute svg {
+    width: auto;
+    height: auto;
+}
+/* Breeze wrapper: anchor for the panel */
+.nav-actions > .relative {
+    position: relative;
+}
+
+/* Dropdown panel: take it out of the flow */
+.nav-actions .absolute {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 12rem;
+    transform-origin: top right;
+    z-index: 50;
+}

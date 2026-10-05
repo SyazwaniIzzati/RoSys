@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/homepage.css', 'resources/css/auth.css'])
+    @vite(['resources/css/homepage.css', 'resources/css/auth.css', 'resources/js/app.js', 'resources/css/dashboard.css'])
 </head>
 
 <body class="auth-body">
@@ -32,19 +32,46 @@
             <div class="nav-actions">
 
                 @auth
+                <x-dropdown align="right" width="48">
 
-                <a href="{{ url('/dashboard') }}">
-                    {{ auth()->user()->name }}
-                </a>
+                    <x-slot name="trigger">
+                        <button type="button" class="user-dropdown-trigger">
+                            <span>{{ Auth::user()->name }}</span>
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                            <svg
+                                class="user-dropdown-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </x-slot>
 
-                    <button type="submit" class="nav-logout">
-                        Logout
-                    </button>
-                </form>
+                    <x-slot name="content">
 
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link
+                                :href="route('logout')"
+                                onclick="event.preventDefault();
+                    this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+
+                    </x-slot>
+
+                </x-dropdown>
                 @else
 
                 <a href="{{ route('login') }}">

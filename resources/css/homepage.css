@@ -1,5 +1,5 @@
 /* ==========================================================
-   RoSys Florist – welcome page
+   RoSys Florist – Welcome Page
    ========================================================== */
 
 :root {
@@ -20,11 +20,33 @@
     --nav-h: 4.5rem;
 }
 
+
+/* ==========================================================
+   Base
+   ========================================================== */
+
 /* Scale everything (rem) up on large monitors */
-html { font-size: 100%; }
-@media (min-width: 1440px) { html { font-size: 112.5%; } }
-@media (min-width: 1920px) { html { font-size: 125%; } }
-@media (min-width: 2560px) { html { font-size: 150%; } }
+html {
+    font-size: 100%;
+}
+
+@media (min-width: 1440px) {
+    html {
+        font-size: 112.5%;
+    }
+}
+
+@media (min-width: 1920px) {
+    html {
+        font-size: 125%;
+    }
+}
+
+@media (min-width: 2560px) {
+    html {
+        font-size: 150%;
+    }
+}
 
 *,
 *::before,
@@ -42,7 +64,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100%; height: auto; }
+img {
+    max-width: 100%;
+    height: auto;
+}
 
 a {
     color: inherit;
@@ -62,46 +87,70 @@ button:focus-visible {
     padding: 0 var(--gutter);
 }
 
-/* ---------- Navbar ---------- */
+
+/* ==========================================================
+   Navbar
+   ========================================================== */
+
 .nav {
     position: relative;
     z-index: 5;
+
     height: var(--nav-h);
+
     border-bottom: 1px solid var(--line);
+
     background: var(--bg);
 }
 
 .nav .container {
     height: 100%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+
+/* ---------- Brand ---------- */
+
 .brand {
     display: flex;
     align-items: baseline;
+
     gap: 0.75rem;
+
     font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 500;
+
     line-height: 1;
 }
 
 .brand small {
     font-family: var(--font-body);
+
     font-size: 0.65rem;
     font-weight: 400;
+
     letter-spacing: 0.2em;
     text-transform: uppercase;
+
     color: var(--faint);
 }
 
+
+/* ---------- Navigation links ---------- */
+
 .nav-links {
     display: flex;
+
     gap: 2rem;
+
     list-style: none;
+
     font-size: 0.9rem;
+
     color: var(--muted);
 }
 
@@ -110,54 +159,61 @@ button:focus-visible {
     color: var(--ink);
 }
 
+
+/* ---------- Navbar actions ---------- */
+
 .nav-actions {
     display: flex;
     align-items: center;
+
     gap: 1.4rem;
+
     font-size: 0.85rem;
+
     color: var(--muted);
 }
 
-.nav-actions a {
+
+/*
+ * Direct navbar links only.
+ *
+ * This prevents the rule from affecting
+ * Breeze's Profile and Log Out links.
+ */
+.nav-actions > a {
     display: inline-flex;
     align-items: center;
+
     gap: 0.45rem;
 }
 
-.nav-actions a:hover {
+.nav-actions > a:hover {
     color: var(--ink);
 }
 
-.nav-actions svg {
+.nav-actions > a > svg {
     width: 1.05rem;
     height: 1.05rem;
 }
-.nav-logout {
-    display: inline-flex;
-    align-items: center;
 
-    padding: 0;
-    border: 0;
-    background: none;
 
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
+/* ==========================================================
+   Hero
+   ========================================================== */
 
-    cursor: pointer;
-}
-
-.nav-logout:hover {
-    color: var(--ink);
-}
-
-/* ---------- Hero ---------- */
 .hero {
-    display: grid;                                   /* this was missing */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 0.9fr);
+
     gap: clamp(2rem, 5vw, 6rem);
+
     align-items: center;
+
     min-height: calc(100vh - var(--nav-h));
+
     padding-block: 3rem;
 }
 
@@ -165,64 +221,111 @@ button:focus-visible {
     padding-top: 0;
 }
 
+
+/* ---------- Eyebrow ---------- */
+
 .eyebrow {
     display: block;
+
     font-size: clamp(0.65rem, 0.6vw, 0.8rem);
+
     letter-spacing: 0.3em;
+
     text-transform: uppercase;
+
     color: var(--muted);
+
     margin-bottom: 1.75rem;
 }
 
+
+/* ---------- Hero heading ---------- */
+
 .hero h1 {
     font-family: var(--font-display);
+
     font-weight: 400;
+
     font-size: clamp(3rem, 5.5vw, 6rem);
+
     line-height: 1.04;
+
     letter-spacing: -0.005em;
+
     margin-bottom: 1.9rem;
 }
 
 .hero h1 em {
     display: block;
+
     font-style: italic;
+
     font-weight: 300;
+
     color: var(--muted);
 }
+
+
+/* ---------- Lead text ---------- */
 
 .lead {
     max-width: 36rem;
+
     font-size: clamp(0.95rem, 0.9vw, 1.2rem);
+
     line-height: 1.7;
+
     color: var(--muted);
+
     margin-bottom: 1.9rem;
 }
 
-/* Buttons */
+
+/* ==========================================================
+   Buttons
+   ========================================================== */
+
 .btn-row {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 0.75rem;
+
     margin-bottom: 2.6rem;
 }
 
 .btn {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     gap: 0.5rem;
+
     height: 2.9rem;
+
     padding: 0 1.7rem;
+
     border-radius: 999px;
+
     font-size: 0.75rem;
+
     letter-spacing: 0.15em;
+
     text-transform: uppercase;
+
     border: 1px solid transparent;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        color 0.2s;
 }
 
 .btn-primary {
     background: var(--accent);
+
     color: var(--white);
 }
 
@@ -232,228 +335,226 @@ button:focus-visible {
 
 .btn-ghost {
     background: rgba(255, 255, 255, 0.7);
+
     border-color: var(--line);
+
     color: var(--muted);
 }
 
 .btn-ghost:hover {
     border-color: var(--accent);
+
     color: var(--ink);
 }
 
-/* Stats */
+
+/* ==========================================================
+   Stats
+   ========================================================== */
+
 .stats {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
+
     max-width: 30rem;
+
     padding-top: 1.4rem;
+
     border-top: 1px solid var(--line);
 }
 
 .stat dt {
     font-size: 0.65rem;
+
     letter-spacing: 0.26em;
+
     text-transform: uppercase;
+
     color: var(--faint);
+
     margin-bottom: 0.4rem;
 }
 
 .stat dd {
     font-family: var(--font-display);
+
     font-size: 1.6rem;
+
     line-height: 1.1;
+
     color: var(--ink);
 }
 
-/* ---------- Hero image panel ---------- */
+
+/* ==========================================================
+   Hero Image Panel
+   ========================================================== */
+
 .hero-media {
     position: relative;
+
     background: rgba(255, 255, 255, 0.75);
+
     border-radius: 0 1.25rem 1.25rem 0;
-    box-shadow: 0 30px 60px -30px rgba(111, 86, 70, 0.25);
+
+    box-shadow:
+        0 30px 60px -30px rgba(111, 86, 70, 0.25);
 }
 
 .hero-media img {
     display: block;
+
     width: 87%;
+
     aspect-ratio: 5 / 6;
+
     object-fit: cover;
 }
 
-/* soft fade where the photo meets the navbar */
+
+/* ---------- Soft fade ---------- */
+
 .hero-media::before {
     content: "";
+
     position: absolute;
+
     top: 0;
     left: 0;
+
     width: 87%;
     height: 4.4rem;
-    background: linear-gradient(to bottom, rgba(253, 248, 244, 0.85), rgba(253, 248, 244, 0));
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(253, 248, 244, 0.85),
+            rgba(253, 248, 244, 0)
+        );
+
     z-index: 1;
+
     pointer-events: none;
 }
 
+
+/* ---------- Bloom card ---------- */
+
 .bloom-card {
     position: absolute;
+
     z-index: 2;
+
     left: -1.4rem;
     bottom: -1.5rem;
+
     background: var(--white);
+
     padding: 0.9rem 1.4rem 1rem;
+
     border-radius: 0.5rem;
-    box-shadow: 0 12px 30px -12px rgba(90, 60, 40, 0.3);
+
+    box-shadow:
+        0 12px 30px -12px rgba(90, 60, 40, 0.3);
 }
 
 .bloom-card span {
     display: block;
+
     font-size: 0.62rem;
+
     letter-spacing: 0.24em;
+
     text-transform: uppercase;
+
     color: var(--faint);
+
     margin-bottom: 0.2rem;
 }
 
 .bloom-card strong {
     font-family: var(--font-display);
+
     font-weight: 500;
+
     font-size: 1.35rem;
+
     line-height: 1.2;
 }
 
-/* ---------- Responsive ---------- */
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
 @media (max-width: 960px) {
-    :root { --gutter: 1.5rem; }
+
+    :root {
+        --gutter: 1.5rem;
+    }
+
+
+    /* ---------- Navbar ---------- */
 
     .nav {
         height: auto;
+
         padding: 0.9rem 0;
     }
 
     .nav .container {
         flex-wrap: wrap;
+
         row-gap: 0.75rem;
     }
 
     .nav-links {
         order: 3;
+
         width: 100%;
+
         justify-content: center;
     }
 
+
+    /* ---------- Hero ---------- */
+
     .hero {
         grid-template-columns: 1fr;
+
         gap: 3.5rem;
+
         min-height: auto;
+
         padding-block: 2rem 4rem;
     }
 
     .hero-media {
         max-width: 30rem;
+
         margin: 0 auto;
+
         width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .brand small { display: none; }
-    .btn-row .btn { flex: 1 1 100%; }
-    .bloom-card { left: 0.75rem; }
-}
+
 /* ==========================================================
-   Customer Dashboard – Category Cards
+   Small Screens
    ========================================================== */
 
-.category-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
-}
+@media (max-width: 480px) {
 
-.category-card {
-    display: flex;
-    min-height: 280px;
-    padding: 2rem;
-
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 1.25rem;
-
-    color: var(--ink);
-    text-decoration: none;
-
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.category-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-    box-shadow: 0 20px 40px -20px rgba(111, 86, 70, 0.3);
-}
-
-.category-card-content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.category-card h2 {
-    margin: 0 0 1rem;
-
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 1.1;
-
-    color: var(--ink);
-}
-
-.category-card p {
-    margin: 0;
-
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    line-height: 1.7;
-
-    color: var(--muted);
-}
-
-.category-card-link {
-    margin-top: auto;
-    padding-top: 2rem;
-
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-
-    color: var(--accent);
-}
-
-.auth-page {
-    padding-top: 4rem;
-    padding-bottom: 5rem;
-}
-
-@media (max-width: 960px) {
-    .category-cards {
-        grid-template-columns: 1fr;
+    .brand small {
+        display: none;
     }
 
-    .category-card {
-        min-height: 220px;
+    .btn-row .btn {
+        flex: 1 1 100%;
     }
-}
 
-.page-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 3.5rem;
-    line-height: 1.2;
-    color: var(--ink);
-    margin-bottom: 1rem;
-    margin-top: -1rem;
+    .bloom-card {
+        left: 0.75rem;
+    }
 }
