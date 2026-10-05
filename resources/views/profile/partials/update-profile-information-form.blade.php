@@ -46,6 +46,16 @@
                 </div>
             @endif
         </div>
+        <div>
+            <x-input-label for="phone" :value="_('Phone')" />
+            <x-text-input id="phone" name="phone" type="phone" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel"  />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+        <div>
+            <x-input-label for="address" :value="_('Address')" />
+            <textarea
+                id="address" name="address" rows="4" class="mt-1 block w-full" autocomplete="street-address" >{{ old('address', $user->address) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

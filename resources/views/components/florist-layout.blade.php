@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/homepage.css', 'resources/css/auth.css', 'resources/js/app.js', 'resources/css/dashboard.css'])
+    @vite(['resources/css/homepage.css', 'resources/css/auth.css', 'resources/js/app.js', 'resources/css/dashboard.css', 'resources/css/profile.css', ])
 </head>
 
 <body class="auth-body">

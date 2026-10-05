@@ -1,0 +1,207 @@
+/* ==========================================================
+   RoSys Profile Page
+   ========================================================== */
+
+/* ---------- Page: center title, intro and cards ---------- */
+
+.profile-page {
+    text-align: center;
+}
+
+.profile-page .page-lead {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    max-width: 42rem;
+    margin: 3rem auto 0;
+}
+
+.profile-card {
+    padding: 2rem;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+
+    text-align: left;   /* labels and inputs stay left-aligned */
+}
+
+/* ---------- Card headings and descriptions: centered ---------- */
+
+.profile-card h2 {
+    margin-bottom: 0.5rem;
+
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    text-align: center;
+}
+
+.profile-card header p {
+    text-align: center;
+}
+
+.profile-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+/* ---------- Form spacing ---------- */
+
+/* Space between each field group (label + input) */
+.profile-card form > div + div {
+    margin-top: 1.25rem;
+}
+
+.profile-card form {
+    margin-top: 1.5rem;
+}
+
+/* ---------- Labels ---------- */
+
+.profile-card label {
+    display: block;
+    margin-bottom: 0.35rem;
+
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* ---------- Inputs ---------- */
+
+.profile-card input[type="text"],
+.profile-card input[type="email"],
+.profile-card input[type="password"],
+.profile-card input[type="phone"],
+.profile-card textarea {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+
+    box-shadow: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.profile-card textarea {
+    resize: vertical;
+}
+
+/* ---------- Input focus ---------- */
+
+.profile-card input:focus,
+.profile-card textarea:focus {
+    outline: none;
+
+    border-color: var(--accent);
+
+    box-shadow: 0 0 0 3px rgba(111, 86, 70, 0.12);
+
+    --tw-ring-color: transparent;
+}
+
+/* ---------- Buttons: base style ---------- */
+
+.profile-card button[type="submit"],
+.profile-card button:not([type]) {
+    height: 2.7rem;
+    padding: 0 1.5rem;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    background: var(--accent);
+    color: var(--white);
+
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.profile-card button[type="submit"]:hover,
+.profile-card button:not([type]):hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+/* ---------- Buttons: centered ---------- */
+
+/* Any wrapper that directly contains a submit button (Save, Update Password) */
+.profile-card div:has(> button[type="submit"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Submit button as a direct child of the form (no wrapper) */
+.profile-card form > button[type="submit"] {
+    display: block;
+    margin: 1.5rem auto 0;
+}
+
+/* Delete Account button sits directly under the section header */
+.profile-card section > button {
+    display: block;
+    margin: 1.5rem auto 0;
+}
+
+/* ---------- Delete account button: keep red ---------- */
+/* Must stay AFTER the general button rules above */
+
+.profile-card button.bg-red-600 {
+    background: #b3261e;
+    color: var(--white);
+}
+
+.profile-card button.bg-red-600:hover {
+    background: #8f1d17;
+}
+
+/* Modal confirm button (Alpine teleports it outside .profile-card) */
+button.bg-red-600 {
+    background: #b3261e;
+    color: var(--white);
+}
+
+button.bg-red-600:hover {
+    background: #8f1d17;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 480px) {
+    .profile-card {
+        padding: 1.5rem;
+    }
+}
