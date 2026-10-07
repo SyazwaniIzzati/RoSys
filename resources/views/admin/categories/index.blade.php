@@ -19,15 +19,15 @@
     </div>
 
     @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
 
     @if ($errors->any())
-    <div class="alert alert-danger">
-        Please check the form for errors.
-    </div>
+        <div class="alert alert-danger">
+            Please check the form for errors.
+        </div>
     @endif
 
     <div class="category-table-wrapper">
@@ -35,6 +35,7 @@
             <thead>
                 <tr>
                     <th>No.</th>
+                    <th>Image</th>
                     <th>Category Name</th>
                     <th>Description</th>
                     <th>Actions</th>
@@ -43,44 +44,83 @@
 
             <tbody>
                 @forelse ($categories as $category)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $category->category_name }}</td>
-                    <td>{{ $category->description ?: '_' }}</td>
-                    <td>
-                        <div style="display: flex; gap: 8px;">
-                            <button
-                                type="button"
-                                class="pill-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editCategoryModal{{ $category->category_id }}">
-                                Edit
-                            </button>
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
 
-                            <button
-                                type="button"
-                                class="pill-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteCategoryModal{{ $category->category_id }}">
-                                Delete
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        {{-- Category Image --}}
+                        <td>
+                            @if ($category->image)
+                                <img
+                                    src="{{ asset('storage/' . $category->image) }}"
+                                    alt="{{ $category->category_name }}"
+                                    class="category-table-image"
+                                >
+                            @else
+                                <span>_</span>
+                            @endif
+                        </td>
+
+                        {{-- Category Name --}}
+                        <td>
+                            {{ $category->category_name }}
+                        </td>
+
+                        {{-- Description --}}
+                        <td>
+                            {{ $category->description ?: '_' }}
+                        </td>
+
+                        {{-- Actions --}}
+                        <td>
+                            <div style="display: flex; gap: 8px;">
+
+                                <button
+                                    type="button"
+                                    class="pill-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal{{ $category->category_id }}">
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="pill-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteCategoryModal{{ $category->category_id }}">
+                                    Delete
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+
                 @empty
-                <tr>
-                    <td colspan="4" style="text-align: center; padding:32px;">
-                        No categories found. Add your first category.
-                    </td>
-                </tr>
+
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding:32px;">
+                            No categories found. Add your first category.
+                        </td>
+                    </tr>
+
                 @endforelse
             </tbody>
         </table>
     </div>
 
+    {{-- Edit & Delete Modals --}}
     @foreach ($categories as $category)
-    <x-admin.categories.delete-modal :category="$category"/>
-    <x-admin.categories.edit-modal :category="$category"/>
+
+        <x-admin.categories.delete-modal
+            :category="$category"
+        />
+
+        <x-admin.categories.edit-modal
+            :category="$category"
+        />
+
     @endforeach
+
+    {{-- Create Modal --}}
     <x-admin.categories.create-modal />
+
 </x-admin-layout>

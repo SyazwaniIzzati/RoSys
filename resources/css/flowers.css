@@ -1,0 +1,173 @@
+/* ==========================================================
+   Flower Category Cards  (5 per row)
+   ========================================================== */
+
+.flower-category-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.flower-category-card {
+    display: flex;
+    flex-direction: column;
+
+    text-decoration: none;
+    color: inherit;
+
+    background: var(--white, #ffffff);          /* white card on cream page */
+    border: 1px solid var(--line, #eadfd6);
+    border-radius: 14px;
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.flower-category-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent, #6f5646);
+    box-shadow: 0 16px 32px -18px rgba(111, 86, 70, 0.35);
+}
+
+.flower-category-image {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;         /* show the whole image */
+    display: block;
+
+    padding: 0.5rem;
+    background: #f3ebe3;         /* soft beige panel behind every photo */
+}
+
+.flower-category-image-empty {
+    background: #f3ebe3;
+    color: var(--muted, #8a7a70);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flower-category-content {
+    padding: 0.85rem;
+}
+
+.flower-category-content h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.flower-category-content p {
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+
+
+/* ==========================================================
+   Flower Cards  (5 per row)
+   ========================================================== */
+
+.flower-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.flower-card {
+    background: var(--white, #ffffff);
+    border: 1px solid var(--line, #eadfd6);
+    border-radius: 14px;
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.flower-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -18px rgba(111, 86, 70, 0.35);
+}
+
+.flower-card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;         /* show the whole image */
+    display: block;
+
+    padding: 0.5rem;
+    background: #f3ebe3;         /* soft beige panel behind every photo */
+}
+
+.flower-image-empty {
+    background: #f3ebe3;
+    color: var(--muted, #8a7a70);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flower-card-content {
+    padding: 0.85rem;
+}
+
+.flower-description {
+    font-size: 0.85rem;
+}
+
+.flower-prices {
+    display: flex;
+    flex-wrap: wrap;             /* wraps if the card is too narrow */
+    gap: 0.5rem 1rem;
+    margin: 0.75rem 0;
+}
+
+.flower-prices small {
+    display: block;
+}
+
+.flower-prices strong {
+    display: block;
+}
+
+.flower-stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.flower-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (max-width: 1200px) {
+    .flower-category-cards,
+    .flower-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 960px) {
+    .flower-category-cards,
+    .flower-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .flower-category-cards,
+    .flower-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+}

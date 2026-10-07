@@ -338,7 +338,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .category-table td {
     color: #39332e;
 }
-
+.category-table-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
 .category-table tbody tr:last-child td {
     border-bottom: none;
 }

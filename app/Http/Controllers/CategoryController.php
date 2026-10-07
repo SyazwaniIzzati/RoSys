@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -15,19 +16,13 @@ class CategoryController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
+    // Display categories for customer
     public function customerIndex()
     {
         $categories = Category::orderBy('category_name')->get();
-        $categories = Category::orderBy('description')->get();
 
         return view('dashboard', compact('categories'));
     }
-
-    // Show create page
-    // public function create()
-    // {
-    //     return view('admin.categories.create');
-    // }
 
     // Store new category
     public function store(Request $request)
@@ -35,7 +30,15 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'category_name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        // Upload category image
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request
+                ->file('image')
+                ->store('categories', 'public');
+        }
 
         Category::create($validated);
 
@@ -44,19 +47,27 @@ class CategoryController extends Controller
             ->with('success', 'Category created successfully.');
     }
 
-    // // Show edit page
-    // public function edit(Category $category)
-    // {
-    //     return view('admin.categories.edit', compact('category'));
-    // }
-
     // Update category
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
             'category_name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        // Upload new category image
+        if ($request->hasFile('image')) {
+
+            // Delete old image
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+
+            $validated['image'] = $request
+                ->file('image')
+                ->store('categories', 'public');
+        }
 
         $category->update($validated);
 
@@ -68,6 +79,11 @@ class CategoryController extends Controller
     // Delete category
     public function destroy(Category $category)
     {
+        // Delete category image
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
+
         $category->delete();
 
         return redirect()

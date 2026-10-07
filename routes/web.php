@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FlowerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,26 +32,35 @@ Route::middleware('auth')->group(function () {
 
 
     // =========================
-    // Admin Categories
+    // Admin 
     // =========================
 
     Route::get('/admin/categories', [CategoryController::class, 'index'])
         ->name('admin.categories');
 
-    // Route::get('/admin/categories/create', [CategoryController::class, 'create'])
-    //     ->name('admin.categories.create');
-
     Route::post('/admin/categories', [CategoryController::class, 'store'])
         ->name('admin.categories.store');
-
-    // Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])
-    //     ->name('admin.categories.edit');
 
     Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])
         ->name('admin.categories.update');
 
     Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])
         ->name('admin.categories.destroy');
+
+    Route::get('/admin/flowers', [FlowerController::class, 'index'])
+        ->name('admin.flowers');
+
+    Route::get('/admin/flowers/category/{categoryId}', [FlowerController::class, 'category'])
+        ->name('admin.flowers.category');
+    
+    Route::post('/admin/flowers', [FlowerController::class, 'store'])
+        ->name('admin.flowers.store');
+
+    Route::put('/admin/flowers/{flower}', [FlowerController::class, 'update'])
+        ->name('admin.flowers.update');
+
+    Route::delete('/admin/flowers/{flower}', [FlowerController::class, 'destroy'])
+        ->name('admin.flowers.destroy');
 
 });
 
