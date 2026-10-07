@@ -17,7 +17,7 @@ class Flowers extends Model
         'price_per_stem',
         'price_per_bunch',
         'stock_quantity',
-        'minimum_order_quantity',
+        'bunch_quantity',
         'availability',
         'image',
     ];

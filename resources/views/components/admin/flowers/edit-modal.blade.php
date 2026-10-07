@@ -123,15 +123,15 @@
                     <div class="mb-3">
 
                         <label class="form-label">
-                            Minimum Order Quantity
+                            Minimum Order Bunch Quantity
                         </label>
 
                         <input
                             type="number"
-                            name="minimum_order_quantity"
+                            name="bunch_quantity"
                             class="form-control"
                             min="1"
-                            value="{{ $flower->minimum_order_quantity }}"
+                            value="{{ $flower->bunch_quantity }}"
                             required>
 
                     </div>

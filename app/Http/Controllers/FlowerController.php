@@ -43,7 +43,7 @@ class FlowerController extends Controller
             'price_per_stem' => 'nullable|numeric|min:0',
             'price_per_bunch' => 'nullable|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'minimum_order_quantity' => 'required|integer|min:1',
+            'bunch_quantity' => 'required|integer|min:5',
             'availability' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
@@ -57,8 +57,8 @@ class FlowerController extends Controller
         Flowers::create($validated);
 
         return redirect()
-            ->route('admin.flowers')
-            ->with('success', 'Flower added successfully');
+            ->route('admin.flowers.category', ['categoryId' => $validated['category_id']])
+            ->with('success');
     }
 
     public function update(Request $request, Flowers $flower)
@@ -70,7 +70,7 @@ class FlowerController extends Controller
             'price_per_stem' => 'nullable|numeric|min:0',
             'price_per_bunch' => 'nullable|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'minimum_order_quantity' => 'required|integer|min:1',
+            'bunch_quantity' => 'required|integer|min:5',
             'availability' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
@@ -89,7 +89,7 @@ class FlowerController extends Controller
         $flower->update($validated);
 
         return redirect()
-            ->route('admin.flowers')
+            ->route('admin.flowers.category', ['categoryId' => $validated['category_id']])
             ->with('success', 'Flower updated successfully.');
     }
 
@@ -102,7 +102,7 @@ class FlowerController extends Controller
         $flower->delete();
 
         return redirect()
-            ->route('admin.flowers')
+            ->route('admin.flowers.category')
             ->with('success', 'Flower deleted successfully.');
     }
 }
