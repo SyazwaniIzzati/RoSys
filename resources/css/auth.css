@@ -13,8 +13,8 @@
 .auth-page {
     flex: 1;
     width: 100%;
-    padding-top: 76px;
-    padding-bottom: 96px;
+    padding-top: clamp(2rem, 6vh, 4.75rem);
+    padding-bottom: clamp(3rem, 8vh, 6rem);
 }
 
 .auth-footer {
@@ -23,19 +23,26 @@
 }
 
 /* ---------- Login layout ---------- */
+/* Photo + form are sized to their content and centered as one group */
 .auth-login {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 110px;
-    align-items: start;
+    grid-template-columns: minmax(0, 26rem) minmax(0, 24rem);
+    justify-content: center;
+    align-items: center;
+    gap: clamp(3rem, 7vw, 7rem);
 }
 
 .auth-visual {
     position: relative;
-    aspect-ratio: 5 / 3;
-    border-radius: 14px;
+    aspect-ratio: 4 / 5;           /* portrait card – smaller and more elegant */
+    max-height: 68vh;              /* never taller than the screen allows */
+    width: 100%;
+    border-radius: 18px;
     overflow: hidden;
     background: #e9dcd3;
+    box-shadow:
+        0 30px 60px -30px rgba(111, 86, 70, 0.45),
+        0 0 0 1px rgba(111, 86, 70, 0.06);
 }
 
 .auth-visual img {
@@ -44,36 +51,54 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 35%;   /* keeps the roses in view */
+    filter: saturate(1.06) contrast(1.03);
 }
 
+/* Soft dark gradient only at the bottom, so the caption is readable */
 .auth-visual::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(43, 30, 24, 0.55), rgba(43, 30, 24, 0) 55%);
+    background: linear-gradient(
+        to top,
+        rgba(43, 30, 24, 0.6),
+        rgba(43, 30, 24, 0) 38%
+    );
 }
 
 .auth-visual-caption {
     position: absolute;
     z-index: 1;
-    left: 32px;
+    left: 28px;
+    right: 28px;
     bottom: 26px;
     color: #fff;
 }
 
 .auth-visual-caption span {
     display: block;
-    font-size: 0.56rem;
-    letter-spacing: 0.26em;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     opacity: 0.85;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+/* thin line above the title for a refined look */
+.auth-visual-caption span::after {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1px;
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 .auth-visual-caption strong {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: 2.2rem;
+    font-size: 2rem;
     line-height: 1.1;
 }
 
@@ -200,11 +225,69 @@ button.btn {
     }
 
     .auth-login {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 28rem);   /* single centered column */
         gap: 40px;
+    }
+
+    .auth-visual {
+        aspect-ratio: 16 / 10;     /* shorter banner on phones/tablets */
+        max-height: none;
     }
 
     .auth-form {
         max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+
+/* ==========================================================
+   FIX: allow scrolling on login / register pages
+   homepage.css locks the body to the screen height
+   (height: 100dvh; overflow: hidden) for the one-screen
+   welcome page. These pages need to scroll, so undo it here.
+   ========================================================== */
+.auth-body {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+}
+
+
+/* ==========================================================
+   Register page – card layout with two-column fields
+   ========================================================== */
+.auth-center--wide {
+    max-width: 40rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -35px rgba(111, 86, 70, 0.35);
+}
+
+.auth-center--wide .auth-title {
+    margin-bottom: 1.75rem;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+}
+
+.field--full {
+    grid-column: 1 / -1;
+}
+
+.auth-center--wide .auth-alt {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .field-grid {
+        grid-template-columns: 1fr;
     }
 }

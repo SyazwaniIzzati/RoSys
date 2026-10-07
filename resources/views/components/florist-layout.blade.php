@@ -109,7 +109,7 @@
         {{ $slot }}
     </main>
 
-    <footer class="auth-footer"></footer>
+    <x-site-footer />
 </body>
 
 </html>

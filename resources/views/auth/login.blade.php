@@ -1,4 +1,4 @@
-<x-florist-layout>
+<x-login-layout>
     <div class="auth-login">
 
         {{-- Photo card --}}
@@ -51,4 +51,4 @@
             @endif
         </section>
     </div>
-</x-florist-layout>
+</x-login-layout>

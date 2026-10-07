@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,43 +14,32 @@
     <!-- Page styles -->
     @vite('resources/css/homepage.css')
 </head>
+
 <body>
 
     {{-- Navbar --}}
     <header class="nav">
-      <div class="container">
-        <a href="{{ url('/') }}" class="brand">
-            RoSys <small>Florist · Est. 2026</small>
-        </a>
-
-        <ul class="nav-links">
-            <li><a href="{{ url('/') }}" class="active">Home</a></li>
-            <li><a href="{{ url('/flowers') }}">Flowers</a></li>
-            <li><a href="{{ url('/customise') }}">Customise</a></li>
-            <li><a href="{{ url('/orders') }}">Orders</a></li>
-        </ul>
-
-        <div class="nav-actions">
-            @if (Route::has('login'))
-                @auth
-                    <a href="{{ url('/dashboard') }}">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
-                        </svg>
-                        Sign in
-                    </a>
-                @endauth
-            @endif
-
-            <a href="{{ url('/cart') }}" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
-                </svg>
+        <div class="container">
+            <a href="{{ url('/') }}" class="brand">
+                RoSys <small>Florist · Est. 2026</small>
             </a>
+
+            <div class="nav-actions">
+                @if (Route::has('login'))
+                @auth
+                <a href="{{ url('/dashboard') }}">Dashboard</a>
+                @else
+                <a href="{{ route('login') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+                    </svg>
+                    Sign in
+                </a>
+                @endauth
+                @endif
+            </div>
         </div>
-      </div>
     </header>
 
     {{-- Hero --}}
@@ -66,26 +56,6 @@
                 Fresh seasonal blooms, hand-tied in our atelier. Choose your flowers,
                 colours and style — we'll arrange the rest with quiet romance.
             </p>
-
-            <div class="btn-row">
-                <a href="{{ url('/customise') }}" class="btn btn-primary">Customise a bouquet &rarr;</a>
-                <a href="{{ url('/flowers') }}" class="btn btn-ghost">Shop flowers</a>
-            </div>
-
-            <dl class="stats">
-                <div class="stat">
-                    <dt>Stems</dt>
-                    <dd>60+</dd>
-                </div>
-                <div class="stat">
-                    <dt>Cities</dt>
-                    <dd>3</dd>
-                </div>
-                <div class="stat">
-                    <dt>Same-day</dt>
-                    <dd>by 2pm</dd>
-                </div>
-            </dl>
         </section>
 
         <aside class="hero-media">
@@ -98,6 +68,27 @@
             </div>
         </aside>
     </main>
+    </main>
+
+    {{-- Footer --}}
+    <footer class="site-footer">
+        <div class="container">
+            <span class="footer-brand">
+                RoSys <small>© {{ date('Y') }} · All rights reserved</small>
+            </span>
+
+            <ul class="footer-links">
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Terms</a></li>
+            </ul>
+        </div>
+    </footer>
 
 </body>
+
+</html>
+
+</body>
+
 </html>
