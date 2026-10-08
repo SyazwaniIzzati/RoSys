@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FlowerController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,6 +62,13 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/admin/flowers/{flower}', [FlowerController::class, 'destroy'])
         ->name('admin.flowers.destroy');
+
+    // =========================
+    // Customer
+    // =========================
+
+    Route::post('/cart/add', [CartController::class, 'add'])
+        ->name('cart.add');
 
 });
 

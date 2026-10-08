@@ -5,8 +5,7 @@
         <div>
             <a
                 href="{{ route('admin.flowers') }}"
-                class="back-link"
-            >
+                class="back-link">
                 ← Back to Flowers
             </a>
 
@@ -24,8 +23,7 @@
                 type="button"
                 class="pill-btn"
                 data-bs-toggle="modal"
-                data-bs-target="#createFlowerModal"
-            >
+                data-bs-target="#createFlowerModal">
                 + Add {{ $category->category_name }}
             </button>
         </div>
@@ -33,123 +31,126 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
     @endif
 
     <div class="flower-grid">
 
         @forelse ($flowers as $flower)
 
-            <div class="flower-card">
+        <div class="flower-card">
 
-                {{-- Flower Image --}}
-                @if ($flower->image)
+            {{-- Flower Image --}}
+            @if ($flower->image)
 
-                    <img
-                        src="{{ asset('storage/' . $flower->image) }}"
-                        alt="{{ $flower->flower_name }}"
-                        class="flower-card-image"
-                    >
+            <img
+                src="{{ asset('storage/' . $flower->image) }}"
+                alt="{{ $flower->flower_name }}"
+                class="flower-card-image">
 
-                @else
+            @else
 
-                    <div class="flower-card-image flower-image-empty">
-                        No Image
+            <div class="flower-card-image flower-image-empty">
+                No Image
+            </div>
+
+            @endif
+
+            <div class="flower-card-content">
+
+                <h3>
+                    {{ $flower->flower_name }}
+                </h3>
+
+                <p class="flower-description">
+                    {{ $flower->description }}
+                </p>
+
+                <div class="flower-prices">
+
+                    @if ($flower->price_per_stem !== null)
+                    <div>
+                        <small>Per Stem</small>
+                        <strong>
+                            RM {{ number_format($flower->price_per_stem, 2) }}
+                        </strong>
                     </div>
+                    @endif
 
-                @endif
+                    @if ($flower->price_per_bunch !== null)
+                    <div>
+                        <small>Per Bunch</small>
+                        <strong>
+                            RM {{ number_format($flower->price_per_bunch, 2) }}
+                        </strong>
 
-                <div class="flower-card-content">
-
-                    <h3>
-                        {{ $flower->flower_name }}
-                    </h3>
-
-                    <p class="flower-description">
-                        {{ $flower->description }}
-                    </p>
-
-                    <div class="flower-prices">
-
-                        @if ($flower->price_per_stem !== null)
-                            <div>
-                                <small>Per Stem</small>
-                                <strong>
-                                    RM {{ number_format($flower->price_per_stem, 2) }}
-                                </strong>
-                            </div>
+                        @if ($flower->bunch_quantity !== null)
+                        <small>
+                            {{ $flower->bunch_quantity }} flowers / bunch
+                        </small>
                         @endif
-
-                        @if ($flower->price_per_bunch !== null)
-                            <div>
-                                <small>Per Bunch</small>
-                                <strong>
-                                    RM {{ number_format($flower->price_per_bunch, 2) }}
-                                </strong>
-                            </div>
-                        @endif
-
                     </div>
+                    @endif
 
-                    <div class="flower-stock">
+                </div>
 
-                        <span>
-                            Stock: {{ $flower->stock_quantity }}
-                        </span>
+                <div class="flower-stock">
 
-                        @if ($flower->availability)
-                            <span class="flower-status available">
-                                Available
-                            </span>
-                        @else
-                            <span class="flower-status unavailable">
-                                Unavailable
-                            </span>
-                        @endif
+                    <span>
+                        Stock: {{ $flower->stock_quantity }}
+                    </span>
 
-                    </div>
+                    @if ($flower->availability)
+                    <span class="flower-status available">
+                        Available
+                    </span>
+                    @else
+                    <span class="flower-status unavailable">
+                        Unavailable
+                    </span>
+                    @endif
 
-                    <div class="flower-actions">
+                </div>
 
-                        <button
-                            type="button"
-                            class="pill-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editFlowerModal{{ $flower->flower_id }}"
-                        >
-                            Edit
-                        </button>
+                <div class="flower-actions">
 
-                        <button
-                            type="button"
-                            class="pill-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteFlowerModal{{ $flower->flower_id }}"
-                        >
-                            Delete
-                        </button>
+                    <button
+                        type="button"
+                        class="pill-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editFlowerModal{{ $flower->flower_id }}">
+                        Edit
+                    </button>
 
-                    </div>
+                    <button
+                        type="button"
+                        class="pill-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteFlowerModal{{ $flower->flower_id }}">
+                        Delete
+                    </button>
 
                 </div>
 
             </div>
 
+        </div>
+
         @empty
 
-            <div class="flower-empty-state">
+        <div class="flower-empty-state">
 
-                <h3>
-                    No {{ $category->category_name }} yet
-                </h3>
+            <h3>
+                No {{ $category->category_name }} yet
+            </h3>
 
-                <p>
-                    Add the first flower to this category.
-                </p>
+            <p>
+                Add the first flower to this category.
+            </p>
 
-            </div>
+        </div>
 
         @endforelse
 
@@ -161,14 +162,12 @@
     {{-- Edit & Delete Modals --}}
     @foreach ($flowers as $flower)
 
-        <x-admin.flowers.edit-modal
-            :flower="$flower"
-            :category="$category"
-        />
+    <x-admin.flowers.edit-modal
+        :flower="$flower"
+        :category="$category" />
 
-        <x-admin.flowers.delete-modal
-            :flower="$flower"
-        />
+    <x-admin.flowers.delete-modal
+        :flower="$flower" />
 
     @endforeach
 
