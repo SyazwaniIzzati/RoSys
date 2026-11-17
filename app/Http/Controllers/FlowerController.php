@@ -105,4 +105,88 @@ class FlowerController extends Controller
             ->route('admin.flowers.category')
             ->with('success', 'Flower deleted successfully.');
     }
+
+    // Customer: display all flowers
+    public function customerIndex(Request $request)
+    {
+        $categories = Category::orderBy('category_name')->get();
+
+        $flowers = Flowers::with('category');
+
+        $sort = $request->query('sort', 'latest');
+
+        switch ($sort) {
+            case 'price_low':
+                $flowers->orderBy('price_per_stem', 'asc');
+                break;
+
+            case 'price_high':
+                $flowers->orderBy('price_per_stem', 'desc');
+                break;
+
+            case 'name':
+                $flowers->orderBy('flower_name', 'asc');
+                break;
+
+            default:
+                $sort = 'latest';
+                $flowers->orderByDesc('created_at');
+                break;
+        }
+
+        // Pagination: display 10 flowers per page
+        $flowers = $flowers->paginate(10)->withQueryString();
+
+        $activeCategory = null;
+
+        return view('flowers.index', compact(
+            'flowers',
+            'categories',
+            'activeCategory',
+            'sort'
+        ));
+    }
+
+
+    // Customer: display flowers in a selected category
+    public function customerCategory(Request $request, $categoryId)
+    {
+        $activeCategory = Category::findOrFail($categoryId);
+
+        $categories = Category::orderBy('category_name')->get();
+
+        $flowers = Flowers::with('category')
+            ->where('category_id', $categoryId);
+
+        $sort = $request->query('sort', 'latest');
+
+        switch ($sort) {
+            case 'price_low':
+                $flowers->orderBy('price_per_stem', 'asc');
+                break;
+
+            case 'price_high':
+                $flowers->orderBy('price_per_stem', 'desc');
+                break;
+
+            case 'name':
+                $flowers->orderBy('flower_name', 'asc');
+                break;
+
+            default:
+                $sort = 'latest';
+                $flowers->orderByDesc('created_at');
+                break;
+        }
+
+        // Pagination: display 10 flowers per page
+        $flowers = $flowers->paginate(10)->withQueryString();
+
+        return view('flowers.index', compact(
+            'flowers',
+            'categories',
+            'activeCategory',
+            'sort'
+        ));
+    }
 }

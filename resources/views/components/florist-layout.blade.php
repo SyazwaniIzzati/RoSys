@@ -23,7 +23,7 @@
             </a>
 
             <ul class="nav-links">
-                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ url('/flowers') }}">Flowers</a></li>
                 <li><a href="{{ url('/customise') }}">Customise</a></li>
                 <li><a href="{{ url('/orders') }}">Orders</a></li>

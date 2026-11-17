@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/flowers/category/{categoryId}', [FlowerController::class, 'category'])
         ->name('admin.flowers.category');
-    
+
     Route::post('/admin/flowers', [FlowerController::class, 'store'])
         ->name('admin.flowers.store');
 
@@ -76,8 +76,18 @@ Route::middleware('auth')->group(function () {
         'customerCategory'
     ])->middleware('verified')->name('flowers.category');
 
+    // Customer flower pages
+    Route::get('/flowers', [FlowerController::class, 'customerIndex'])
+        ->middleware('verified')
+        ->name('flowers.index');
 
+    Route::get('/flowers/category/{categoryId}', [
+        FlowerController::class,
+        'customerCategory'
+    ])
+        ->middleware('verified')
+        ->name('flowers.category');
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
