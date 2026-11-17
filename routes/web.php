@@ -70,6 +70,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])
         ->name('cart.add');
 
+    // Customer flower category page
+    Route::get('/flowers/category/{categoryId}', [
+        FlowerController::class,
+        'customerCategory'
+    ])->middleware('verified')->name('flowers.category');
+
+
 });
 
 

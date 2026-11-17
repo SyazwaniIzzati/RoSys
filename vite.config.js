@@ -10,6 +10,7 @@ export default defineConfig({
                     'resources/css/auth.css',
                     'resources/css/admin.css',
                     'resources/css/dashboard.css',
+                    'resources/css/customer-dashboard.css',
                    ],
             refresh: true,
         }),
