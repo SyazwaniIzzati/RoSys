@@ -1,0 +1,933 @@
+/* ==========================================
+   ROSYS CUSTOMER FLOWERS PAGE
+========================================== */
+
+#rf {
+    --ink: #2a1d1a;
+    --muted: #7a6a65;
+    --line: #eadfd9;
+    --soft: #f6ece6;
+    --dark: #3b2a24;
+    --dark-hover: #241914;
+    --radius: 16px;
+    --gap: 20px;
+
+    --body: "Jost", system-ui, sans-serif;
+    --display: "Cormorant Garamond", Georgia, serif;
+
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: -48px 0 0;
+    padding: 0 10px 36px 0;
+    box-sizing: border-box;
+    font-family: var(--body);
+    color: var(--ink);
+}
+
+#rf *,
+#rf *::before,
+#rf *::after {
+    box-sizing: border-box;
+}
+
+#rf a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#rf h1,
+#rf h2,
+#rf h3,
+#rf h4,
+#rf p {
+    margin: 0;
+}
+
+#rf button,
+#rf select {
+    font-family: inherit;
+}
+
+/* ==========================================
+   FLASH MESSAGES
+========================================== */
+
+#rf .flash {
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+}
+
+#rf .flash-success {
+    background: #e8f3ea;
+    color: #25552f;
+}
+
+#rf .flash-error {
+    background: #fbe9e9;
+    color: #8a2a2a;
+}
+
+/* ==========================================
+   MAIN LAYOUT
+   Sidebar + flower products
+========================================== */
+
+#rf .catalog-wrap {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+    width: 100%;
+}
+
+/* ==========================================
+   CUSTOMER SIDEBAR
+========================================== */
+
+#rf .sidebar {
+    position: sticky;
+    top: 28px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar container */
+
+#rf .sidebar-card {
+    width: 100%;
+    height: min(744px, calc(100vh - 56px));
+    min-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 30px 20px 18px;
+
+    background: #fffdfa;
+    border: 1px solid #eee3d5;
+    border-radius: 30px;
+
+    box-shadow: 0 8px 24px rgba(70, 48, 35, 0.025);
+
+    overflow: hidden;
+}
+
+/* Navigation heading */
+
+#rf .side-title {
+    flex-shrink: 0;
+
+    margin: 0 0 14px;
+    padding: 0 12px 16px;
+
+    border-bottom: 1px solid #eee3d5;
+
+    color: #aaa092;
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+/* Scrollable category list */
+
+#rf .side-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    min-height: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 3px 8px 0;
+
+    gap: 4px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #d8cabb transparent;
+}
+
+/* Chrome and Edge scrollbar */
+
+#rf .side-nav::-webkit-scrollbar {
+    width: 5px;
+}
+
+#rf .side-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#rf .side-nav::-webkit-scrollbar-thumb {
+    background: #d8cabb;
+    border-radius: 10px;
+}
+
+#rf .side-nav::-webkit-scrollbar-thumb:hover {
+    background: #b9a897;
+}
+
+/* Individual category row */
+
+#rf .side-nav .side-link {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 11px;
+
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+
+    color: #776e63;
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 13px;
+
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Consistent icon size */
+
+#rf .side-nav .side-link > svg:first-child {
+    display: block;
+    flex: 0 0 17px;
+
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+
+    color: #776e63;
+}
+
+/* Category label */
+
+#rf .side-link-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Hover */
+
+#rf .side-nav .side-link:hover {
+    background: #f7f2e9;
+    color: #382a24;
+}
+
+/* Selected category */
+
+#rf .side-nav .side-link.is-active {
+    background: #eee5d7;
+    border-color: transparent;
+    color: #382f29;
+    font-weight: 500;
+}
+
+#rf .side-nav .side-link.is-active > svg:first-child {
+    color: #382f29;
+}
+
+/* Right arrow */
+
+#rf .side-nav .side-link .side-chevron {
+    flex: 0 0 13px;
+
+    width: 13px;
+    height: 13px;
+
+    margin-left: auto;
+    color: #776e63;
+}
+
+/* Category count */
+
+#rf .side-nav .cat-num {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+
+    color: #776e63;
+    background: #f7f2e9;
+    border-radius: 6px;
+
+    font-size: 10px;
+}
+
+/* ==========================================
+   CUSTOM BOUQUET / CUSTOMISATION
+   Keep visible below category list
+========================================== */
+
+#rf .promo-box {
+    display: block;
+    flex-shrink: 0;
+
+    margin-top: 12px;
+    padding: 15px 14px;
+
+    background: #f7f3ec;
+    border: 1px solid #eee3d5;
+    border-radius: 14px;
+}
+
+#rf .promo-box h4 {
+    margin: 0 0 5px;
+
+    color: #39362e;
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+#rf .promo-box p {
+    margin: 0 0 9px;
+
+    color: #77736a;
+    font-family: var(--body);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+#rf .promo-box a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    color: #554d3e;
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+#rf .promo-box a:hover {
+    color: #938064;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+#rf .main-area {
+    width: 100%;
+    min-width: 0;
+    padding: 0 8px 0 0;
+}
+
+/* Toolbar */
+
+#rf .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    margin: 0 0 12px;
+}
+
+#rf .toolbar .count {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+#rf .toolbar .count strong {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+/* Sorting */
+
+#rf .sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+#rf .sort select {
+    max-width: 100%;
+    padding: 8px 16px;
+
+    color: var(--ink);
+    background: #fff;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    cursor: pointer;
+}
+
+/* ==========================================
+   FLOWER PRODUCT GRID
+   Five cards per row on desktop
+========================================== */
+
+#rf .flower-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+}
+
+/* Product card */
+
+#rf .flower-card {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+#rf .flower-card:hover {
+    box-shadow: 0 8px 24px rgba(42, 29, 26, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Flower image */
+
+#rf .flower-media {
+    position: relative;
+
+    width: 100%;
+    height: 190px;
+
+    aspect-ratio: auto;
+    flex-shrink: 0;
+
+    background: var(--soft);
+    overflow: hidden;
+}
+
+#rf .flower-media img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+#rf .flower-noimg {
+    display: grid;
+    place-items: center;
+
+    height: 100%;
+
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Stock badge */
+
+#rf .badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    padding: 4px 11px;
+
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+#rf .badge.low {
+    background: #fff3df;
+    color: #8a5a12;
+}
+
+#rf .badge.out {
+    background: #fbe9e9;
+    color: #8a2a2a;
+}
+
+/* Product details */
+
+#rf .flower-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+
+    padding: 10px 10px 11px;
+}
+
+#rf .flower-name {
+    font-family: var(--display);
+    font-size: 1.08rem;
+    font-weight: 500;
+    line-height: 1.12;
+
+    overflow-wrap: anywhere;
+}
+
+#rf .flower-name span {
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
+#rf .flower-min {
+    margin-top: 4px !important;
+
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Price details */
+
+#rf .prices {
+    display: grid;
+    gap: 4px;
+
+    padding: 7px 0;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+
+    font-size: 0.82rem;
+}
+
+#rf .prices div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+
+    color: var(--muted);
+}
+
+#rf .prices div span {
+    min-width: 0;
+}
+
+#rf .prices strong {
+    flex-shrink: 0;
+    color: var(--ink);
+    font-weight: 500;
+}
+
+/* ==========================================
+   STEM / BUNCH TOGGLE
+========================================== */
+
+#rf .mode {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    padding: 3px;
+
+    background: var(--soft);
+    border-radius: 999px;
+}
+
+#rf .mode button {
+    padding: 6px 0;
+
+    color: var(--muted);
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+#rf .mode button.is-active {
+    color: var(--ink);
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#rf .mode button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ==========================================
+   QUANTITY STEPPER
+========================================== */
+
+#rf .stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+#rf .step-btn {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+
+    width: 30px;
+    height: 30px;
+
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    font-size: 1.05rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+#rf .step-btn:hover:not(:disabled) {
+    border-color: var(--dark);
+    background: var(--soft);
+}
+
+#rf .step-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+#rf .qty {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+#rf .qty b {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+#rf .qty small {
+    display: block;
+
+    min-height: 1.1em;
+    margin-top: 1px;
+
+    color: var(--muted);
+    font-size: 0.76rem;
+}
+
+/* Total */
+
+#rf .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 0.9rem;
+}
+
+#rf .total strong {
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+/* Add to cart */
+
+#rf .add-btn {
+    width: 100%;
+    margin-top: auto;
+    padding: 9px 6px;
+
+    color: #fff;
+    background: var(--dark);
+    border: 0;
+    border-radius: 999px;
+
+    font-size: 0.82rem;
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+#rf .add-btn:hover:not(:disabled) {
+    background: var(--dark-hover);
+}
+
+#rf .add-btn:disabled {
+    background: #cfc3bd;
+    cursor: not-allowed;
+}
+
+/* Empty results */
+
+#rf .empty {
+    padding: 60px 0;
+    color: var(--muted);
+    text-align: center;
+}
+
+/* ==========================================
+   PAGINATION
+========================================== */
+
+#rf .pagination-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 24px 0 0;
+    padding: 12px 0 0;
+}
+
+#rf .pagination-info {
+    margin-right: 6px;
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+#rf .pagination-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 38px;
+    padding: 8px 16px;
+
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    font-size: 0.85rem;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+#rf .pagination-btn:hover:not(.is-disabled) {
+    background: var(--soft);
+    border-color: var(--dark);
+}
+
+#rf .pagination-btn.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    background: #f8f5f3;
+}
+
+#rf .pagination-btn.next {
+    color: #fff;
+    background: var(--dark);
+    border-color: var(--dark);
+}
+
+#rf .pagination-btn.next:hover:not(.is-disabled) {
+    background: var(--dark-hover);
+}
+
+/* ==========================================
+   RESPONSIVE: SMALL DESKTOP / LAPTOP
+========================================== */
+
+@media (max-width: 1400px) {
+    #rf .flower-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    #rf .catalog-wrap {
+        grid-template-columns: 230px minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    #rf .flower-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    #rf .sidebar-card {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE: TABLET
+========================================== */
+
+@media (max-width: 960px) {
+    #rf {
+        margin-top: -28px;
+        padding: 0 16px 32px;
+    }
+
+    #rf .catalog-wrap {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    #rf .sidebar {
+        position: static;
+    }
+
+    #rf .sidebar-card {
+        height: auto;
+        min-height: 0;
+        padding: 18px 14px;
+        border-radius: 22px;
+    }
+
+    #rf .side-title {
+        margin-bottom: 10px;
+        padding: 0 12px 12px;
+    }
+
+    /* Categories scroll vertically */
+    #rf .side-nav {
+        flex: initial;
+        max-height: 240px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #rf .side-nav .side-link {
+        min-height: 42px;
+        gap: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    /* Keep Custom Bouquet visible */
+    #rf .promo-box {
+        display: block;
+        margin-top: 12px;
+    }
+
+    #rf .main-area {
+        padding: 0;
+    }
+
+    #rf .flower-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #rf .flower-media {
+        height: 170px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE: MOBILE
+========================================== */
+
+@media (max-width: 640px) {
+    #rf {
+        margin-top: -18px;
+        padding: 0 12px 28px;
+    }
+
+    #rf .flower-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    #rf .flower-body {
+        gap: 8px;
+        padding: 9px;
+    }
+
+    #rf .flower-name {
+        font-size: 1.05rem;
+    }
+
+    #rf .toolbar {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    #rf .sort select {
+        max-width: 155px;
+        padding: 8px 10px;
+    }
+
+    #rf .prices {
+        font-size: 0.76rem;
+    }
+
+    #rf .flower-media {
+        height: 145px;
+    }
+
+    #rf .stepper {
+        gap: 4px;
+    }
+
+    #rf .step-btn {
+        width: 29px;
+        height: 29px;
+    }
+
+    #rf .promo-box {
+        padding: 13px;
+    }
+}
+
+/* Very small mobile screens */
+
+@media (max-width: 380px) {
+    #rf .flower-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

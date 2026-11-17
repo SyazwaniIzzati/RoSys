@@ -26,7 +26,6 @@
    Base
    ========================================================== */
 
-/* Scale everything (rem) up on large monitors */
 html {
     font-size: 100%;
     height: 100%;
@@ -58,16 +57,12 @@ html {
     padding: 0;
 }
 
-/* Lock the page to exactly the viewport height */
 body {
     height: 100%;
-    height: 100dvh;            /* correct on mobile browsers with address bars */
-
+    height: 100dvh;            
     display: flex;
     flex-direction: column;
-
     overflow: hidden;
-
     font-family: var(--font-body);
     background: var(--bg);
     color: var(--ink);
@@ -107,7 +102,7 @@ button:focus-visible {
     position: relative;
     z-index: 5;
 
-    flex: 0 0 auto;            /* never shrinks */
+    flex: 0 0 auto;          
     height: var(--nav-h);
 
     border-bottom: 1px solid var(--line);
@@ -122,9 +117,6 @@ button:focus-visible {
     align-items: center;
     justify-content: space-between;
 }
-
-
-/* ---------- Brand ---------- */
 
 .brand {
     display: flex;
@@ -150,9 +142,6 @@ button:focus-visible {
 
     color: var(--faint);
 }
-
-
-/* ---------- Navigation links ---------- */
 
 .nav-links {
     display: flex;
@@ -185,10 +174,6 @@ button:focus-visible {
     color: var(--muted);
 }
 
-/*
- * Direct navbar links only.
- * Prevents the rule from affecting Breeze's Profile and Log Out links.
- */
 .nav-actions > a {
     display: inline-flex;
     align-items: center;
