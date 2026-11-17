@@ -63,18 +63,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/flowers/{flower}', [FlowerController::class, 'destroy'])
         ->name('admin.flowers.destroy');
 
+
     // =========================
     // Customer
     // =========================
 
+    // Cart page
+    Route::get('/cart', [CartController::class, 'index'])
+        ->middleware('verified')
+        ->name('cart.index');
+
+    // Add item to cart
     Route::post('/cart/add', [CartController::class, 'add'])
+        ->middleware('verified')
         ->name('cart.add');
 
-    // Customer flower category page
-    Route::get('/flowers/category/{categoryId}', [
-        FlowerController::class,
-        'customerCategory'
-    ])->middleware('verified')->name('flowers.category');
+    // Update cart item quantity
+    Route::patch('/cart/{cartItemId}', [CartController::class, 'update'])
+        ->middleware('verified')
+        ->name('cart.update');
+
+    // Remove cart item
+    Route::delete('/cart/{cartItemId}', [CartController::class, 'destroy'])
+        ->middleware('verified')
+        ->name('cart.destroy');
 
     // Customer flower pages
     Route::get('/flowers', [FlowerController::class, 'customerIndex'])

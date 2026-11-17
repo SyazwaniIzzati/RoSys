@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/homepage.css', 'resources/css/auth.css', 'resources/js/app.js', 'resources/css/dashboard.css', 'resources/css/profile.css', 'reources/css/customer-dashboard.css',])
+    @vite(['resources/css/homepage.css', 'resources/css/auth.css', 'resources/js/app.js', 'resources/css/dashboard.css', 'resources/css/profile.css',])
+    @stack('styles')
 </head>
 
 <body class="auth-body">
@@ -89,7 +90,12 @@
 
                 @endauth
 
-                <a href="{{ url('/cart') }}" aria-label="Cart">
+
+
+                <a href="{{ route('cart.index') }}"
+                    class="cart-icon-link"
+                    aria-label="Cart, {{ $cartCount ?? 0 }} items">
+
                     <svg viewBox="0 0 24 24" fill="none"
                         stroke="currentColor"
                         stroke-width="1.5"
@@ -99,7 +105,14 @@
                         <path d="M5 8h14l-1 12H6L5 8z" />
                         <path d="M9 8V6a3 3 0 0 1 6 0v2" />
                     </svg>
+
+                    @if (($cartCount ?? 0) > 0)
+                    <span class="cart-count-badge">
+                        {{ $cartCount }}
+                    </span>
+                    @endif
                 </a>
+
 
             </div>
         </div>

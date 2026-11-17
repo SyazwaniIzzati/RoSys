@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Carts extends Model
 {
     protected $table = 'carts';
+
     protected $primaryKey = 'cart_id';
+
     protected $fillable = [
         'user_id',
     ];
@@ -28,7 +30,7 @@ class Carts extends Model
         return $this->hasMany(
             CartItems::class,
             'cart_id',
-            'card_id'
+            'cart_id'
         );
     }
 }

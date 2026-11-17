@@ -1,0 +1,480 @@
+
+/* ========================================
+   CART PAGE
+======================================== */
+
+.cart-page {
+    padding: 10px 0 60px;
+    color: #292929;
+}
+
+main.auth-page:has(.cart-page) {
+    padding-top: 15px !important;
+}
+
+.cart-heading {
+    margin-bottom: 28px;
+}
+
+.cart-heading h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 400;
+    margin: 0 0 6px;
+}
+
+.cart-heading p {
+    color: #777;
+    margin: 0;
+    font-size: 14px;
+}
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+    gap: 26px;
+    align-items: start;
+}
+
+.cart-panel,
+.summary-panel {
+    background: #fff;
+    border: 1px solid #e9e6e1;
+    border-radius: 12px;
+}
+
+.cart-panel {
+    padding: 24px;
+}
+
+.cart-panel-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 20px;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 18px;
+    padding: 20px 0;
+    border-top: 1px solid #eeeae5;
+}
+
+.cart-item:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 115px;
+    object-fit: contain;
+    background: #f7f6f3;
+    border-radius: 8px;
+}
+
+.cart-item-details {
+    min-width: 0;
+}
+
+.cart-item-name {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 5px;
+}
+
+.cart-item-type {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.cart-item-price {
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.cart-item-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.quantity-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.quantity-form input {
+    width: 65px;
+    padding: 7px;
+    text-align: center;
+    border: 1px solid #ddd8d0;
+    border-radius: 5px;
+}
+
+.small-button {
+    border: 1px solid #ddd8d0;
+    background: #fff;
+    padding: 7px 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.small-button:hover {
+    background: #f6f5f2;
+}
+
+.remove-button {
+    border: 0;
+    background: none;
+    color: #9b4545;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    text-decoration: underline;
+    padding: 8px 4px;
+}
+
+.remove-button:hover {
+    color: #7e3030;
+}
+
+/* ========================================
+   ORDER SUMMARY
+======================================== */
+
+.summary-panel {
+    padding: 24px;
+    position: sticky;
+    top: 20px;
+}
+
+.summary-panel h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 22px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.summary-total {
+    border-top: 1px solid #e9e6e1;
+    padding-top: 18px;
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.summary-note {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 18px 0;
+}
+
+/* ========================================
+   CART BUTTONS
+======================================== */
+
+.cart-primary-button,
+.cart-secondary-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 13px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.cart-primary-button {
+    background: #303b32;
+    color: #fff;
+    border: 1px solid #303b32;
+    margin-top: 12px;
+}
+
+.cart-primary-button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.cart-secondary-button {
+    color: #303b32;
+    background: #fff;
+    border: 1px solid #d9d6cf;
+    margin-top: 10px;
+}
+
+.cart-secondary-button:hover {
+    background: #f6f5f2;
+}
+
+/* ========================================
+   EMPTY CART AND ALERTS
+======================================== */
+
+.cart-empty {
+    text-align: center;
+    padding: 55px 20px;
+}
+
+.cart-empty h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.cart-alert {
+    padding: 12px 15px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.cart-alert-success {
+    background: #edf5ee;
+    color: #285a35;
+}
+
+.cart-alert-error {
+    background: #fbefed;
+    color: #8a3530;
+}
+
+/* ========================================
+   REMOVE CONFIRMATION MODAL
+======================================== */
+
+.remove-modal[hidden] {
+    display: none !important;
+}
+
+.remove-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.remove-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(25, 29, 26, .55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.remove-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #e9e6e1;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+    text-align: center;
+    animation: removeModalAppear .2s ease-out;
+}
+
+.remove-modal-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #f8eeeb;
+    color: #9b4545;
+}
+
+.remove-modal-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.remove-modal-dialog h2 {
+    margin: 0 0 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 29px;
+    font-weight: 500;
+    color: #292929;
+}
+
+.remove-modal-message {
+    margin: 0 0 26px;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.remove-modal-flower {
+    color: #292929;
+    font-weight: 500;
+}
+
+.remove-modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.remove-modal-actions button {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.remove-modal-actions form {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+}
+
+.remove-modal-actions form button {
+    width: 100%;
+}
+
+.remove-cancel-button {
+    background: #fff;
+    color: #303b32;
+    border: 1px solid #d9d6cf;
+}
+
+.remove-cancel-button:hover {
+    background: #f6f5f2;
+}
+
+.remove-confirm-button {
+    background: #963f3f;
+    color: #fff;
+    border: 1px solid #963f3f;
+}
+
+.remove-confirm-button:hover {
+    background: #7e3030;
+}
+
+.remove-modal button:focus-visible {
+    outline: 2px solid #303b32;
+    outline-offset: 3px;
+}
+
+@keyframes removeModalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 800px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-panel {
+        position: static;
+    }
+
+    .cart-heading h1 {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 450px) {
+    .cart-panel,
+    .summary-panel {
+        padding: 16px;
+    }
+
+    .cart-item {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .cart-item-image {
+        width: 76px;
+        height: 95px;
+    }
+
+    .remove-modal-dialog {
+        padding: 24px 20px;
+    }
+
+    .remove-modal-actions {
+        flex-direction: column;
+    }
+
+    .remove-modal-actions button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .remove-modal-dialog {
+        animation: none;
+    }
+}
+.remove-confirm-button {
+    background-color: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.remove-confirm-button:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.remove-confirm-button:active {
+    transform: translateY(0);
+}
+
+.remove-confirm-button:focus-visible {
+    outline: 3px solid #fca5a5;
+    outline-offset: 3px;
+}

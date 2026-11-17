@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CartItems extends Model
 {
     protected $table = 'cart_items';
+
     protected $primaryKey = 'cart_item_id';
+
     protected $fillable = [
         'cart_id',
         'flower_id',
@@ -20,6 +21,7 @@ class CartItems extends Model
     ];
 
     protected $casts = [
+        'quantity' => 'integer',
         'unit_price' => 'decimal:2',
         'subtotal' => 'decimal:2',
     ];
@@ -29,16 +31,16 @@ class CartItems extends Model
         return $this->belongsTo(
             Carts::class,
             'cart_id',
-            'cart_id',
+            'cart_id'
         );
     }
 
-    public function flower(): HasMany
+    public function flower(): BelongsTo
     {
-        return $this->hasMany(
+        return $this->belongsTo(
             Flowers::class,
             'flower_id',
-            'flower_id',
+            'flower_id'
         );
     }
 }

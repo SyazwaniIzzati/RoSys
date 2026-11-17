@@ -7,37 +7,68 @@ use App\Models\CartItems;
 use App\Models\Flowers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+    /**
+     * Display the customer's cart.
+     */
+    public function index()
+    {
+        $cart = Carts::firstOrCreate([
+            'user_id' => Auth::id(),
+        ]);
+
+        $cart->load('items.flower');
+
+        $subtotal = $cart->items->sum('subtotal');
+
+        return view('cart.index', compact(
+            'cart',
+            'subtotal'
+        ));
+    }
+
+    /**
+     * Add a flower to the cart.
+     */
     public function add(Request $request)
     {
-        // Validate the data coming from the frontend
         $validated = $request->validate([
             'flower_id' => 'required|exists:flowers,flower_id',
             'item_type' => 'required|in:stem,bunch',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Get the selected flower
-        $flower = Flowers::findOrFail($validated['flower_id']);
+        $flower = Flowers::findOrFail(
+            $validated['flower_id']
+        );
 
-        // Check whether the flower is available
         if (!$flower->availability) {
-            return back()->with('error', 'This flower is currently unavailable.');
+            return back()->with(
+                'error',
+                'This flower is currently unavailable.'
+            );
         }
 
-        // Determine the price based on item type
         if ($validated['item_type'] === 'stem') {
-
             $unitPrice = $flower->price_per_stem;
 
+            if ($unitPrice === null) {
+                return back()->with(
+                    'error',
+                    'Stem purchase is not available for this flower.'
+                );
+            }
         } else {
-
             $unitPrice = $flower->price_per_bunch;
 
-            // Make sure bunch price and bunch quantity exist
-            if ($unitPrice === null || $flower->bunch_quantity === null) {
+            if (
+                $unitPrice === null ||
+                !$flower->bunch_quantity ||
+                $flower->bunch_quantity < 1
+            ) {
                 return back()->with(
                     'error',
                     'Bunch purchase is not available for this flower.'
@@ -45,92 +76,135 @@ class CartController extends Controller
             }
         }
 
-        // Check that the requested quantity is valid for a bunch
-        if (
-            $validated['item_type'] === 'bunch' &&
-            $validated['quantity'] * $flower->bunch_quantity > $flower->stock_quantity
-        ) {
-            return back()->with(
-                'error',
-                'Not enough stock available for the requested number of bunches.'
-            );
-        }
-
-        // Check stem quantity against stock
-        if (
-            $validated['item_type'] === 'stem' &&
-            $validated['quantity'] > $flower->stock_quantity
-        ) {
-            return back()->with(
-                'error',
-                'Not enough stock available for the requested number of stems.'
-            );
-        }
-
-        // Get the customer's cart or create one
         $cart = Carts::firstOrCreate([
             'user_id' => Auth::id(),
         ]);
 
-        // Check whether the same flower + same item type
-        // already exists in the cart
-        $cartItem = CartItems::where('cart_id', $cart->cart_id)
-            ->where('flower_id', $flower->flower_id)
-            ->where('item_type', $validated['item_type'])
-            ->first();
+        try {
+            DB::transaction(function () use (
+                $validated,
+                $flower,
+                $cart,
+                $unitPrice
+            ) {
+                $cartItem = CartItems::where(
+                    'cart_id',
+                    $cart->cart_id
+                )
+                    ->where('flower_id', $flower->flower_id)
+                    ->where('item_type', $validated['item_type'])
+                    ->lockForUpdate()
+                    ->first();
 
-        if ($cartItem) {
+                $newQuantity = (
+                    $cartItem ? $cartItem->quantity : 0
+                ) + $validated['quantity'];
 
-            // Add the new quantity to the existing quantity
-            $newQuantity = $cartItem->quantity + $validated['quantity'];
+                $flowersNeeded = $validated['item_type'] === 'bunch'
+                    ? $newQuantity * $flower->bunch_quantity
+                    : $newQuantity;
 
-            // Check combined quantity against stock
-            if ($validated['item_type'] === 'stem') {
-
-                if ($newQuantity > $flower->stock_quantity) {
-                    return back()->with(
-                        'error',
+                if ($flowersNeeded > $flower->stock_quantity) {
+                    throw new \RuntimeException(
                         'Not enough stock for the requested quantity.'
                     );
                 }
 
-            } else {
-
-                $totalFlowersNeeded =
-                    $newQuantity * $flower->bunch_quantity;
-
-                if ($totalFlowersNeeded > $flower->stock_quantity) {
-                    return back()->with(
-                        'error',
-                        'Not enough stock for the requested number of bunches.'
-                    );
+                if ($cartItem) {
+                    $cartItem->quantity = $newQuantity;
+                    $cartItem->unit_price = $unitPrice;
+                    $cartItem->subtotal = $newQuantity * $unitPrice;
+                    $cartItem->save();
+                } else {
+                    CartItems::create([
+                        'cart_id' => $cart->cart_id,
+                        'flower_id' => $flower->flower_id,
+                        'item_type' => $validated['item_type'],
+                        'quantity' => $validated['quantity'],
+                        'unit_price' => $unitPrice,
+                        'subtotal' => $validated['quantity'] * $unitPrice,
+                    ]);
                 }
-            }
-
-            $cartItem->quantity = $newQuantity;
-            $cartItem->unit_price = $unitPrice;
-            $cartItem->subtotal = $newQuantity * $unitPrice;
-
-            $cartItem->save();
-
-        } else {
-
-            // Calculate subtotal for a new cart item
-            $subtotal = $validated['quantity'] * $unitPrice;
-
-            CartItems::create([
-                'cart_id' => $cart->cart_id,
-                'flower_id' => $flower->flower_id,
-                'item_type' => $validated['item_type'],
-                'quantity' => $validated['quantity'],
-                'unit_price' => $unitPrice,
-                'subtotal' => $subtotal,
-            ]);
+            });
+        } catch (\RuntimeException $e) {
+            return back()->with('error', $e->getMessage());
         }
 
         return back()->with(
             'success',
             $flower->flower_name . ' added to cart successfully.'
+        );
+    }
+
+    /**
+     * Update the quantity of a cart item.
+     */
+    public function update(Request $request, $cartItemId)
+    {
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cartItem = CartItems::where(
+            'cart_item_id',
+            $cartItemId
+        )
+            ->whereHas('cart', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->with('flower')
+            ->firstOrFail();
+
+        $flower = $cartItem->flower;
+        $quantity = (int) $validated['quantity'];
+
+        if (!$flower || !$flower->availability) {
+            return back()->with(
+                'error',
+                'This flower is currently unavailable.'
+            );
+        }
+
+        $flowersNeeded = $cartItem->item_type === 'bunch'
+            ? $quantity * $flower->bunch_quantity
+            : $quantity;
+
+        if ($flowersNeeded > $flower->stock_quantity) {
+            return back()->with(
+                'error',
+                'Not enough stock for the requested quantity.'
+            );
+        }
+
+        $cartItem->quantity = $quantity;
+        $cartItem->subtotal = $quantity * $cartItem->unit_price;
+        $cartItem->save();
+
+        return back()->with(
+            'success',
+            'Cart quantity updated successfully.'
+        );
+    }
+
+    /**
+     * Remove an item from the customer's cart.
+     */
+    public function destroy($cartItemId)
+    {
+        $cartItem = CartItems::where(
+            'cart_item_id',
+            $cartItemId
+        )
+            ->whereHas('cart', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->firstOrFail();
+
+        $cartItem->delete();
+
+        return back()->with(
+            'success',
+            'Item removed from cart successfully.'
         );
     }
 }
