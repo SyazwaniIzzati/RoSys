@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FlowerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CustomisationOptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -99,6 +100,53 @@ Route::middleware('auth')->group(function () {
     ])
         ->middleware('verified')
         ->name('flowers.category');
+
+
+    // =========================
+    // Admin Customisation
+    // =========================
+
+    // Display customisation options
+    Route::get('/admin/customisation', [
+        CustomisationOptionController::class,
+        'index'
+    ])->name('admin.customisation.index');
+
+    // Add new customisation option
+    Route::post('/admin/customisation', [
+        CustomisationOptionController::class,
+        'store'
+    ])->name('admin.customisation.store');
+
+    // Update customisation option
+    Route::put('/admin/customisation/{customisationOption}', [
+        CustomisationOptionController::class,
+        'update'
+    ])->name('admin.customisation.update');
+
+    // Delete customisation option
+    Route::delete('/admin/customisation/{customisationOption}', [
+        CustomisationOptionController::class,
+        'destroy'
+    ])->name('admin.customisation.destroy');
+
+
+    Route::get('/admin/customisation/type/{optionType}', [
+        CustomisationOptionController::class,
+        'type'
+    ])->name('admin.customisation.type');
+
+
+
+    // =========================
+    // Customer Customisation
+    // =========================
+
+    Route::get('/customise', [
+        CustomisationOptionController::class,
+        'customerIndex'
+    ])->middleware('verified')
+        ->name('customise.index');
 });
 
 
