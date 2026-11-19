@@ -1,27 +1,59 @@
+/* Elak scroll mendatar akibat 100vw */
+html, body { overflow-x: clip; }
+
 #rh{--ink:#1d1517;--muted:#6f5f65;--blush:#f8e6e9;--radius:14px;--gap:24px;--cols:7;
+--hero-ratio:2.6;      /* nisbah lebar:tinggi banner (berubah ikut skrin) */
+--hero-pull:90px;      /* tarik hero ke atas (rapat navbar) */
+--hero-max:1600px;     /* lebar maksimum hero; ubah untuk lebih kecil/besar */
 --body:'Jost',system-ui,sans-serif;
-display:block;width:100%;max-width:1440px;margin:0 auto;padding:24px 20px 56px;box-sizing:border-box;font-family:var(--body);color:var(--ink)}
+display:block;width:100%;max-width:1440px;margin:0 auto;padding:0 20px 56px;box-sizing:border-box;font-family:var(--body);color:var(--ink)}
 #rh *{box-sizing:border-box}
 #rh a{text-decoration:none;color:inherit}
 #rh h1,#rh h2,#rh h3,#rh p{margin:0}
 #rh button{font-family:inherit}
 
-/* ---------- 1. HERO SLIDER (arrows outside, caption below) ---------- */
-#rh .hero-ad{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:18px}
-#rh .hero-ad-viewport{overflow:hidden;border-radius:6px;min-width:0}
-#rh .hero-ad-track{display:flex;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+/* ---------- 1. HERO SLIDER (full-width, responsive) ---------- */
+#rh .hero-ad{
+  display:grid;
+  grid-template-columns:1fr;
+  /* penuh skrin, tapi tak lebih daripada --hero-max (kekal di tengah) */
+  width:min(100vw, var(--hero-max));
+  margin-left:calc(50% - min(100vw, var(--hero-max)) / 2);
+  margin-top:calc(-1 * var(--hero-pull));
+}
+#rh .hero-ad-viewport{grid-area:1/1;overflow:hidden;border-radius:0;min-width:0}
+#rh .hero-ad-track{display:flex;transition:transform .5s cubic-bezier(.65,0,.35,1)}
 #rh .hero-ad-slide{flex:0 0 100%;min-width:100%;display:block}
-#rh .hero-ad-slide img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
-#rh .hero-ad-slide h1,#rh .hero-ad-slide h2{font-size:clamp(1.3rem,2.4vw,1.9rem);font-weight:400;margin-top:16px}
-#rh .hero-ad-arrow{background:none;border:0;padding:6px;cursor:pointer;color:var(--ink);display:grid;place-items:center;transition:transform .2s,color .2s;align-self:start;margin-top:clamp(40px,9vw,120px)}
-#rh .hero-ad-arrow svg{width:clamp(22px,3.4vw,40px);height:clamp(22px,3.4vw,40px)}
-#rh .hero-ad-prev:hover{transform:translateX(-3px)}
-#rh .hero-ad-next:hover{transform:translateX(3px)}
-#rh .hero-ad-dots{grid-column:2;display:flex;justify-content:center;gap:8px;margin-top:6px}
-#rh .hero-ad-dot{width:8px;height:8px;border:0;padding:0;border-radius:99px;background:rgba(29,21,23,.25);cursor:pointer;transition:width .25s,background .25s}
-#rh .hero-ad-dot.is-active{width:26px;background:var(--ink)}
+#rh .hero-ad-slide img{display:block;width:100%;height:auto;max-width:none;aspect-ratio:var(--hero-ratio);object-fit:cover}
 
-/* ---------- 2. CATEGORIES (4 cards + MORE) ---------- */
+/* caption di bawah gambar */
+#rh .hero-ad-slide h1,#rh .hero-ad-slide h2{
+  font-size:clamp(1.1rem,2.4vw,1.9rem);font-weight:400;
+  margin-top:clamp(10px,1.2vw,16px);padding:0 20px;text-align:center}
+
+/* anak panah: bulatan putih, sentiasa di tengah tinggi gambar.
+   margin-top % pada grid item = % lebar grid, jadi tak bergantung 100vw */
+#rh .hero-ad-arrow{
+  grid-area:1/1;align-self:start;z-index:2;
+  margin-top:calc(50% / var(--hero-ratio));
+  transform:translateY(-50%);
+  width:clamp(32px,3.4vw,60px);height:clamp(32px,3.4vw,60px);
+  margin-left:clamp(8px,1.3vw,24px);margin-right:clamp(8px,1.3vw,24px);padding:0;
+  border:0;border-radius:50%;background:#fff;color:#5a1a2e;
+  box-shadow:0 2px 10px rgba(29,21,23,.18);
+  display:grid;place-items:center;cursor:pointer;
+  transition:transform .2s,box-shadow .2s}
+#rh .hero-ad-arrow svg{width:50%;height:50%}
+#rh .hero-ad-prev{justify-self:start}
+#rh .hero-ad-next{justify-self:end}
+#rh .hero-ad-arrow:hover{transform:translateY(-50%) scale(1.08);box-shadow:0 4px 14px rgba(29,21,23,.28)}
+
+/* titik di bawah gambar */
+#rh .hero-ad-dots{grid-area:2/1;display:flex;justify-content:center;gap:clamp(8px,1.1vw,16px);padding:clamp(10px,1.2vw,18px) 0 4px}
+#rh .hero-ad-dot{width:clamp(9px,.9vw,16px);height:clamp(9px,.9vw,16px);border:0;padding:0;border-radius:50%;background:#d9d4d4;cursor:pointer;transition:background .25s}
+#rh .hero-ad-dot.is-active{background:#6e1d36}
+
+/* ---------- 2. CATEGORIES ---------- */
 #rh .category-section{margin:44px auto 0;max-width:1200px}
 #rh .category-row{display:flex;align-items:center;gap:var(--gap)}
 #rh .category-scroll{flex:1;min-width:0;display:flex;flex-wrap:nowrap;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth}
@@ -33,7 +65,7 @@ display:block;width:100%;max-width:1440px;margin:0 auto;padding:24px 20px 56px;b
 #rh .category-image-placeholder{height:100%;display:grid;place-items:center;font-size:.8rem;color:var(--muted)}
 #rh .category-card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(29,21,23,.55),rgba(29,21,23,.08) 60%)}
 #rh .category-card-content{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px;text-align:center}
-#rh .category-card-content h3{color:#fff;font-size:1rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+#rh .category-card-content h3{color:#fff;font-size:clamp(.7rem,1.1vw,1rem);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 #rh .category-more{flex:0 0 auto;display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;color:var(--ink);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:4px;position:relative;top:70px}
 #rh .category-more svg{width:16px;height:16px;transition:transform .2s}
 #rh .category-more:hover svg{transform:translateX(4px)}
@@ -49,6 +81,29 @@ display:block;width:100%;max-width:1440px;margin:0 auto;padding:24px 20px 56px;b
 #rh .mini-ad-content h3{font-size:clamp(1.1rem,2.2vw,1.6rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
 #rh .mini-ad-content p{font-size:.95rem;max-width:36ch}
 
+/* ---------- RESPONSIVE ---------- */
+/* Laptop kecil / tablet landscape */
+@media (max-width:1100px){
+  #rh{--cols:5;--hero-pull:70px}
+}
+/* Tablet */
+@media (max-width:900px){
+  #rh{--cols:4;--gap:16px;--hero-ratio:2.1;--hero-pull:60px}
+  #rh .category-section,#rh .mini-ad-section{margin-top:32px}
+}
+/* Telefon */
+@media (max-width:700px){
+  #rh{--cols:3;--gap:12px;--hero-ratio:1.6;--hero-pull:40px;padding:0 14px 40px}
+  #rh .mini-ad-grid{grid-template-columns:1fr}
+  #rh .mini-ad-card{aspect-ratio:2.3/1}
+  #rh .category-more{top:0}
+  #rh .category-more span{display:none}
+}
+/* Telefon kecil */
+@media (max-width:480px){
+  #rh{--cols:2;--hero-ratio:1.4;--hero-pull:30px}
+}
+
 /* ---------- resets: cancel any old rules from other css files ---------- */
 #rh .category-scroll{display:flex!important;grid-template-columns:none!important}
 #rh .category-card{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;max-width:none!important;height:auto!important;display:block!important;background:var(--blush)!important}
@@ -56,5 +111,4 @@ display:block;width:100%;max-width:1440px;margin:0 auto;padding:24px 20px 56px;b
 #rh .category-card-image{width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important}
 #rh .category-card-content{position:absolute!important;left:0;right:0;bottom:0;background:transparent!important;padding:14px!important;text-align:center!important}
 #rh .category-card-content h3{color:#fff!important;text-align:center!important;margin:0!important}
-#rh .hero-ad-slide img{max-width:none;height:auto}
 #rh .mini-ad-card img{max-width:none}

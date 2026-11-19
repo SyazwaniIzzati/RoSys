@@ -95,14 +95,22 @@ class FlowerController extends Controller
 
     public function destroy(Flowers $flower)
     {
+        // Save the category ID before deleting the flower
+        $categoryId = $flower->category_id;
+
+        // Delete the flower image from storage
         if ($flower->image) {
             Storage::disk('public')->delete($flower->image);
         }
 
+        // Delete the flower record
         $flower->delete();
 
+        // Redirect back to the same category
         return redirect()
-            ->route('admin.flowers.category')
+            ->route('admin.flowers.category', [
+                'categoryId' => $categoryId
+            ])
             ->with('success', 'Flower deleted successfully.');
     }
 

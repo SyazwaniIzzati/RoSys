@@ -145,8 +145,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customise', [
         CustomisationOptionController::class,
         'customerIndex'
-    ])->middleware('verified')
-        ->name('customise.index');
+    ])->name('customise.index');
 });
 
 

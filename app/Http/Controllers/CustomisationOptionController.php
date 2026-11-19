@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomisationOption;
+use App\Models\Category;
+use App\Models\Flowers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -181,6 +183,11 @@ class CustomisationOptionController extends Controller
      */
     public function customerIndex()
     {
+        $flowers = Flowers::all();
+
+        // Kategori untuk langkah 1 (pilih kategori dahulu)
+        $categories = Category::orderBy('category_name')->get();   // ganti nama model
+
         $options = CustomisationOption::where('availability', true)
             ->where(function ($query) {
                 $query->whereIn('option_type', [
@@ -194,8 +201,9 @@ class CustomisationOptionController extends Controller
                 });
             })
             ->orderBy('option_name')
-            ->get();
+            ->get()
+            ->groupBy('option_type');
 
-        return view('customise.index', compact('options'));
+        return view('customise.index', compact('flowers', 'options', 'categories'));
     }
 }

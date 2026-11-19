@@ -68,7 +68,6 @@
             </div>
         </aside>
     </main>
-    </main>
 
     {{-- Footer --}}
     <footer class="site-footer">
@@ -86,9 +85,4 @@
     </footer>
 
 </body>
-
-</html>
-
-</body>
-
 </html>
