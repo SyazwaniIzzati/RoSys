@@ -48,8 +48,19 @@
                 </h2>
 
                 @foreach ($cart->items as $item)
+                @php
+                $isCustomBouquet = $item->item_type === 'custom_bouquet';
+                $customisation = $isCustomBouquet ? $item->customisation : null;
+                @endphp
+
                 <article class="cart-item">
-                    @if ($item->flower && $item->flower->image)
+
+                    @if ($isCustomBouquet && $customisation?->preview_image)
+                    <img
+                        class="cart-item-image"
+                        src="{{ asset('storage/' . $customisation->preview_image) }}"
+                        alt="Custom bouquet preview">
+                    @elseif ($item->flower && $item->flower->image)
                     <img
                         class="cart-item-image"
                         src="{{ asset('storage/' . $item->flower->image) }}"
@@ -63,19 +74,80 @@
 
                     <div class="cart-item-details">
                         <h3 class="cart-item-name">
+                            @if ($isCustomBouquet)
+                            {{ $customisation?->bouquetStyleOption?->option_name ?? 'Custom Bouquet' }}
+                            @else
                             {{ $item->flower->flower_name ?? 'Flower unavailable' }}
+                            @endif
                         </h3>
 
                         <div class="cart-item-type">
-                            {{ ucfirst($item->item_type) }}
+                            {{ $isCustomBouquet ? 'Custom Bouquet' : ucfirst($item->item_type) }}
                         </div>
 
+                        @if ($isCustomBouquet && $customisation)
+                        {{-- Selected flowers --}}
+                        <div style="font-size:13px; margin-top:10px;">
+                            <strong>Flowers:</strong>
+                            @forelse ($customisation->items as $customFlower)
+                            <div>
+                                {{ $customFlower->flower->flower_name ?? 'Flower unavailable' }}
+                                × {{ $customFlower->quantity }}
+                            </div>
+                            @empty
+                            <div>No flower details available.</div>
+                            @endforelse
+                        </div>
+
+                        {{-- Selected customisation options --}}
+                        @if ($customisation->wrappingOption)
+                        <div style="font-size:13px; margin-top:6px;">
+                            <strong>Wrapping:</strong>
+                            {{ $customisation->wrappingOption->option_name }}
+                        </div>
+                        @endif
+
+                        @if ($customisation->ribbonOption)
+                        <div style="font-size:13px; margin-top:6px;">
+                            <strong>Ribbon:</strong>
+                            {{ $customisation->ribbonOption->option_name }}
+                        </div>
+                        @endif
+
+                        @if ($customisation->themeColourOption)
+                        <div style="font-size:13px; margin-top:6px;">
+                            <strong>Theme Colour:</strong>
+                            {{ $customisation->themeColourOption->option_name }}
+                        </div>
+                        @endif
+
+                        @if ($customisation->bouquetStyleOption)
+                        <div style="font-size:13px; margin-top:6px;">
+                            <strong>Bouquet Style:</strong>
+                            {{ $customisation->bouquetStyleOption->option_name }}
+                        </div>
+                        @endif
+
+                        @if ($customisation->special_request)
+                        <div style="font-size:13px; margin-top:6px;">
+                            <strong>Special Request:</strong>
+                            {{ $customisation->special_request }}
+                        </div>
+                        @endif
+
+                        <div class="cart-item-price" style="margin-top:10px;">
+                            RM {{ number_format((float) $item->unit_price, 2) }}
+                            / custom bouquet
+                        </div>
+                        @else
                         <div class="cart-item-price">
                             RM {{ number_format((float) $item->unit_price, 2) }}
                             / {{ $item->item_type === 'bunch' ? 'bunch' : 'stem' }}
                         </div>
+                        @endif
 
                         <div class="cart-item-actions">
+                            @if (!$isCustomBouquet)
                             <form
                                 method="POST"
                                 action="{{ route('cart.update', $item->cart_item_id) }}"
@@ -102,12 +174,19 @@
                                     Update
                                 </button>
                             </form>
+                            @else
+                            <div style="font-size:12px;">
+                                Qty: {{ $item->quantity }} custom bouquet
+                            </div>
+                            @endif
 
                             <button
                                 type="button"
                                 class="remove-button js-open-remove-modal"
                                 data-remove-url="{{ route('cart.destroy', $item->cart_item_id) }}"
-                                data-flower-name="{{ $item->flower->flower_name ?? 'this flower' }}">
+                                data-flower-name="{{ $isCustomBouquet
+                                    ? ($customisation?->bouquetStyleOption?->option_name ?? 'Custom Bouquet')
+                                    : ($item->flower->flower_name ?? 'this flower') }}">
                                 Remove
                             </button>
                         </div>

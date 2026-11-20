@@ -146,6 +146,12 @@ Route::middleware('auth')->group(function () {
         CustomisationOptionController::class,
         'customerIndex'
     ])->name('customise.index');
+
+
+    Route::post(
+        '/cart/custom-bouquet',
+        [CartController::class, 'addCustomBouquet']
+    )->name('cart.add-custom-bouquet');
 });
 
 

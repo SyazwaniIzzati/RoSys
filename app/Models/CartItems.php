@@ -14,6 +14,7 @@ class CartItems extends Model
     protected $fillable = [
         'cart_id',
         'flower_id',
+        'customisation_id',
         'item_type',
         'quantity',
         'unit_price',
@@ -41,6 +42,15 @@ class CartItems extends Model
             Flowers::class,
             'flower_id',
             'flower_id'
+        );
+    }
+
+    public function customisation(): BelongsTo
+    {
+        return $this->belongsTo(
+            BouquetCustomisation::class,
+            'customisation_id',
+            'customisation_id'
         );
     }
 }

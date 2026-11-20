@@ -402,6 +402,28 @@
         </div>
     </div>
 
+
+    <form
+        id="custom-bouquet-cart-form"
+        method="POST"
+        action="{{ route('cart.add-custom-bouquet') }}"
+        enctype="multipart/form-data"
+        hidden>
+        @csrf
+
+        <input
+            type="file"
+            name="preview_image"
+            id="preview-image-input"
+            accept="image/png,image/jpeg,image/webp"
+            hidden>
+
+        <input
+            type="hidden"
+            name="special_request"
+            value="">
+    </form>
+
     @push('styles')
     @vite('resources/css/customise.css')
     @endpush

@@ -1,3 +1,4 @@
+import html2canvas from "html2canvas";
 
 document.addEventListener("DOMContentLoaded", function () {
     const steps = document.querySelectorAll(".customise-step");
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const flowerEmpty = document.getElementById("flower-empty");
 
     const categoryPicks = Array.from(
-        document.querySelectorAll(".category-pick")
+        document.querySelectorAll(".category-pick"),
     );
 
     const hasCategories = categoryPicks.length > 0;
@@ -330,10 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         function updateQuantity(quantity) {
-            flower.quantity = Math.max(
-                0,
-                Math.min(flower.stock, quantity)
-            );
+            flower.quantity = Math.max(0, Math.min(flower.stock, quantity));
 
             quantityElement.textContent = flower.quantity;
 
@@ -369,9 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const flowerGrid = document.querySelector(".flower-options");
 
-    const flowerCards = Array.from(
-        document.querySelectorAll(".flower-option")
-    );
+    const flowerCards = Array.from(document.querySelectorAll(".flower-option"));
 
     const FLOWER_ROWS = 2;
 
@@ -392,11 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
     flowerNext.type = "button";
     flowerNext.textContent = "Next ›";
 
-    flowerPager.append(
-        flowerPrev,
-        flowerPageLabel,
-        flowerNext
-    );
+    flowerPager.append(flowerPrev, flowerPageLabel, flowerNext);
 
     if (flowerGrid) {
         flowerGrid.after(flowerPager);
@@ -409,10 +401,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const columns =
             parseInt(
-                getComputedStyle(flowerGrid).getPropertyValue(
-                    "--flower-cols"
-                ),
-                10
+                getComputedStyle(flowerGrid).getPropertyValue("--flower-cols"),
+                10,
             ) || 4;
 
         return columns * FLOWER_ROWS;
@@ -424,10 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         return flowerCards.filter(function (card) {
-            return (
-                String(card.dataset.categoryId) ===
-                String(activeCategory)
-            );
+            return String(card.dataset.categoryId) === String(activeCategory);
         });
     }
 
@@ -444,23 +431,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const list = getVisibleFlowers();
         const perPage = getFlowersPerPage();
 
-        const pages = Math.max(
-            1,
-            Math.ceil(list.length / perPage)
-        );
+        const pages = Math.max(1, Math.ceil(list.length / perPage));
 
-        flowerPage = Math.max(
-            0,
-            Math.min(flowerPage, pages - 1)
-        );
+        flowerPage = Math.max(0, Math.min(flowerPage, pages - 1));
 
         flowerCards.forEach(function (card) {
             card.hidden = true;
         });
 
         list.forEach(function (card, index) {
-            card.hidden =
-                Math.floor(index / perPage) !== flowerPage;
+            card.hidden = Math.floor(index / perPage) !== flowerPage;
         });
 
         if (flowerEmpty) {
@@ -535,10 +515,7 @@ document.addEventListener("DOMContentLoaded", function () {
     flowerNext.addEventListener("click", function () {
         const list = getVisibleFlowers();
 
-        const pages = Math.max(
-            1,
-            Math.ceil(list.length / getFlowersPerPage())
-        );
+        const pages = Math.max(1, Math.ceil(list.length / getFlowersPerPage()));
 
         if (flowerPage < pages - 1) {
             flowerPage++;
@@ -557,56 +534,43 @@ document.addEventListener("DOMContentLoaded", function () {
     |--------------------------------------------------------------------------
     */
 
-    document.querySelectorAll(".selectable-option").forEach(
-        function (button) {
-            button.addEventListener("click", function () {
-                const type = button.dataset.optionType;
+    document.querySelectorAll(".selectable-option").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const type = button.dataset.optionType;
 
-                if (
-                    !Object.prototype.hasOwnProperty.call(
-                        selectedOptions,
-                        type
-                    )
-                ) {
-                    return;
-                }
+            if (!Object.prototype.hasOwnProperty.call(selectedOptions, type)) {
+                return;
+            }
 
-                const optionImage =
-                    button.dataset.optionImage || "";
+            const optionImage = button.dataset.optionImage || "";
 
-                selectedOptions[type] = {
-                    id: button.dataset.optionId,
-                    name: button.dataset.optionName || "Option",
-                    price: Number(button.dataset.optionPrice) || 0,
-                    image: optionImage,
-                    preview: optionImage,
-                    colour: button.dataset.optionColour || "",
-                };
+            selectedOptions[type] = {
+                id: button.dataset.optionId,
+                name: button.dataset.optionName || "Option",
+                price: Number(button.dataset.optionPrice) || 0,
+                image: optionImage,
+                preview: optionImage,
+                colour: button.dataset.optionColour || "",
+            };
 
-                document
-                    .querySelectorAll(
-                        '.selectable-option[data-option-type="' +
-                            type +
-                            '"]'
-                    )
-                    .forEach(function (otherButton) {
-                        const isSelected = otherButton === button;
+            document
+                .querySelectorAll(
+                    '.selectable-option[data-option-type="' + type + '"]',
+                )
+                .forEach(function (otherButton) {
+                    const isSelected = otherButton === button;
 
-                        otherButton.classList.toggle(
-                            "selected",
-                            isSelected
-                        );
+                    otherButton.classList.toggle("selected", isSelected);
 
-                        otherButton.setAttribute(
-                            "aria-pressed",
-                            String(isSelected)
-                        );
-                    });
+                    otherButton.setAttribute(
+                        "aria-pressed",
+                        String(isSelected),
+                    );
+                });
 
-                renderPreview();
-            });
-        }
-    );
+            renderPreview();
+        });
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -621,14 +585,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         previewFlowers.replaceChildren();
 
-        const queues = Array.from(
-            selectedFlowers.values()
-        ).map(function (flower) {
-            return {
-                flower: flower,
-                left: flower.quantity,
-            };
-        });
+        const queues = Array.from(selectedFlowers.values()).map(
+            function (flower) {
+                return {
+                    flower: flower,
+                    left: flower.quantity,
+                };
+            },
+        );
 
         const items = [];
 
@@ -639,10 +603,7 @@ document.addEventListener("DOMContentLoaded", function () {
             added = false;
 
             queues.forEach(function (queue) {
-                if (
-                    queue.left > 0 &&
-                    items.length < MAX_PREVIEW_FLOWERS
-                ) {
+                if (queue.left > 0 && items.length < MAX_PREVIEW_FLOWERS) {
                     items.push(queue.flower);
                     queue.left--;
                     added = true;
@@ -694,19 +655,13 @@ document.addEventListener("DOMContentLoaded", function () {
             let y = centerY;
 
             if (total > 1) {
-                const ratio = Math.sqrt(
-                    (index + 0.5) / total
-                );
+                const ratio = Math.sqrt((index + 0.5) / total);
 
                 const angle = index * GOLDEN_ANGLE;
 
-                x =
-                    centerX +
-                    radiusX * ratio * Math.cos(angle);
+                x = centerX + radiusX * ratio * Math.cos(angle);
 
-                y =
-                    centerY +
-                    radiusY * ratio * Math.sin(angle);
+                y = centerY + radiusY * ratio * Math.sin(angle);
             }
 
             const image = document.createElement("img");
@@ -793,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function () {
             frontLayer,
             wrapping.preview,
             "",
-            "preview-wrapping-image"
+            "preview-wrapping-image",
         );
 
         if (!image) {
@@ -837,11 +792,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const hasFlowers = selectedFlowers.size > 0;
 
-        const hasOptions = Object.values(
-            selectedOptions
-        ).some(function (option) {
-            return option !== null;
-        });
+        const hasOptions = Object.values(selectedOptions).some(
+            function (option) {
+                return option !== null;
+            },
+        );
 
         const hasSelection = hasFlowers || hasOptions;
 
@@ -887,7 +842,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 previewWrapping,
                 wrapping.preview,
                 wrapping.name,
-                "preview-wrapping-image"
+                "preview-wrapping-image",
             );
         }
 
@@ -895,13 +850,12 @@ document.addEventListener("DOMContentLoaded", function () {
         renderFlowerCluster();
 
         // Layer 3: Wrapping covers the lower flower stems.
-        
 
         // Flower price details.
         selectedFlowers.forEach(function (flower) {
             addSelectionLine(
                 flower.name + " × " + flower.quantity,
-                money(flower.price * flower.quantity)
+                money(flower.price * flower.quantity),
             );
         });
 
@@ -913,7 +867,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 previewRibbon,
                 ribbon.preview,
                 ribbon.name,
-                "preview-ribbon-image"
+                "preview-ribbon-image",
             );
         }
 
@@ -934,30 +888,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Theme and bouquet style labels.
         if (previewTheme) {
-            previewTheme.textContent =
-                selectedOptions.theme_colour
-                    ? selectedOptions.theme_colour.name
-                    : "";
+            previewTheme.textContent = selectedOptions.theme_colour
+                ? selectedOptions.theme_colour.name
+                : "";
         }
 
         if (previewStyle) {
-            previewStyle.textContent =
-                selectedOptions.bouquet_style
-                    ? selectedOptions.bouquet_style.name
-                    : "";
+            previewStyle.textContent = selectedOptions.bouquet_style
+                ? selectedOptions.bouquet_style.name
+                : "";
         }
 
         // Selected options and prices.
-        Object.values(selectedOptions).forEach(
-            function (option) {
-                if (option) {
-                    addSelectionLine(
-                        option.name,
-                        money(option.price)
-                    );
-                }
+        Object.values(selectedOptions).forEach(function (option) {
+            if (option) {
+                addSelectionLine(option.name, money(option.price));
             }
-        );
+        });
 
         if (!previewSelections.children.length) {
             const empty = document.createElement("p");
@@ -987,8 +934,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedFlowers.size === 0) {
             const message = document.createElement("p");
 
-            message.textContent =
-                "Please select at least one flower.";
+            message.textContent = "Please select at least one flower.";
 
             reviewSummary.appendChild(message);
 
@@ -998,25 +944,17 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedFlowers.forEach(function (flower) {
             addReviewLine(
                 flower.name + " × " + flower.quantity,
-                money(flower.price * flower.quantity)
+                money(flower.price * flower.quantity),
             );
         });
 
-        Object.values(selectedOptions).forEach(
-            function (option) {
-                if (option) {
-                    addReviewLine(
-                        option.name,
-                        money(option.price)
-                    );
-                }
+        Object.values(selectedOptions).forEach(function (option) {
+            if (option) {
+                addReviewLine(option.name, money(option.price));
             }
-        );
+        });
 
-        addReviewLine(
-            "Estimated total",
-            money(getTotal())
-        );
+        addReviewLine("Estimated total", money(getTotal()));
     }
 
     /*
@@ -1025,33 +963,189 @@ document.addEventListener("DOMContentLoaded", function () {
     |--------------------------------------------------------------------------
     */
 
+    let isSubmitting = false;
+
     previousButton.addEventListener("click", function () {
+        if (isSubmitting) {
+            return;
+        }
+
         if (currentStep > 0) {
             currentStep--;
             renderSteps();
         }
     });
 
-    nextButton.addEventListener("click", function () {
-        if (
-            currentStep === 0 &&
-            selectedFlowers.size === 0
-        ) {
+    nextButton.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        // Prevent the same bouquet from being submitted twice.
+        if (isSubmitting) {
+            return;
+        }
+
+        // Validate flower selection on the first step.
+        if (currentStep === 0 && selectedFlowers.size === 0) {
             alert("Please choose at least one flower.");
             return;
         }
 
+        // Continue to the next customisation step.
         if (currentStep < steps.length - 1) {
             currentStep++;
             renderSteps();
             return;
         }
 
-        alert(
-            "Your bouquet preview is ready. " +
-                "The Add to Cart function still needs to be " +
-                "connected to Laravel."
+        if (selectedFlowers.size === 0) {
+            alert("Please choose at least one flower.");
+            return;
+        }
+
+        const cartForm = document.getElementById("custom-bouquet-cart-form");
+
+        const previewCanvas = document.getElementById("preview-canvas");
+        const previewImageInput = document.getElementById(
+            "preview-image-input",
         );
+
+        if (!cartForm || !previewCanvas || !previewImageInput) {
+            alert(
+                "The cart form or bouquet preview image input could not be found.",
+            );
+            return;
+        }
+
+        // Remove previously generated fields before preparing this request.
+        cartForm
+            .querySelectorAll("[data-dynamic-field]")
+            .forEach(function (input) {
+                input.remove();
+            });
+
+        function addHiddenInput(name, value) {
+            const input = document.createElement("input");
+
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            input.dataset.dynamicField = "true";
+
+            cartForm.appendChild(input);
+        }
+
+        // Selected flowers and quantities.
+        let index = 0;
+
+        selectedFlowers.forEach(function (flower) {
+            addHiddenInput(`flowers[${index}][flower_id]`, flower.id);
+
+            addHiddenInput(`flowers[${index}][quantity]`, flower.quantity);
+
+            index++;
+        });
+
+        // Selected customisation options.
+        const optionFieldNames = {
+            wrapping: "wrapping_option_id",
+            ribbon: "ribbon_option_id",
+            theme_colour: "theme_colour_option_id",
+            bouquet_style: "bouquet_style_option_id",
+        };
+
+        Object.entries(optionFieldNames).forEach(function ([type, fieldName]) {
+            const option = selectedOptions[type];
+
+            if (option && option.id) {
+                addHiddenInput(fieldName, option.id);
+            }
+        });
+
+        // Special request.
+        const requestField = document.querySelector(
+            'textarea[name="special_request"]',
+        );
+
+        const hiddenRequest = cartForm.querySelector(
+            'input[name="special_request"]',
+        );
+
+        if (requestField && hiddenRequest) {
+            hiddenRequest.value = requestField.value;
+        }
+
+        // Lock submission before starting the asynchronous image capture.
+        isSubmitting = true;
+        nextButton.disabled = true;
+        previousButton.disabled = true;
+
+        const originalButtonText = nextButton.textContent;
+        nextButton.textContent = "Saving Bouquet...";
+
+        try {
+            // Capture the live bouquet preview.
+            const canvas = await html2canvas(previewCanvas, {
+                useCORS: true,
+                backgroundColor: null,
+                scale: 2,
+                logging: true,
+            });
+
+            const blob = await new Promise(function (resolve, reject) {
+                canvas.toBlob(function (result) {
+                    if (result) {
+                        resolve(result);
+                    } else {
+                        reject(
+                            new Error("Could not generate the preview image."),
+                        );
+                    }
+                }, "image/png");
+            });
+
+            const imageFile = new File([blob], "bouquet-preview.png", {
+                type: "image/png",
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(imageFile);
+
+            previewImageInput.files = dataTransfer.files;
+
+            // Verify the image was attached before sending the form.
+            if (previewImageInput.files.length === 0) {
+                throw new Error(
+                    "The preview image was not attached to the form.",
+                );
+            }
+
+            if (
+                !cartForm.enctype ||
+                cartForm.enctype !== "multipart/form-data"
+            ) {
+                throw new Error("The cart form must use multipart/form-data.");
+            }
+
+            console.log("Preview image ready:", {
+                name: previewImageInput.files[0].name,
+                size: previewImageInput.files[0].size,
+                type: previewImageInput.files[0].type,
+            });
+
+            // Submit exactly once.
+            HTMLFormElement.prototype.submit.call(cartForm);
+        } catch (error) {
+            console.error("Custom bouquet submission failed:", error);
+
+            alert(
+                "Unable to prepare the bouquet image. Please check the browser console and try again.",
+            );
+
+            isSubmitting = false;
+            nextButton.disabled = false;
+            previousButton.disabled = currentStep === 0;
+            nextButton.textContent = originalButtonText;
+        }
     });
 
     /*
