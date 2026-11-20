@@ -1,8 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const steps = document.querySelectorAll('.customise-step');
-    const progressSteps = document.querySelectorAll('.progress-step');
-    const previousButton = document.getElementById('previous-step');
-    const nextButton = document.getElementById('next-step');
+
+document.addEventListener("DOMContentLoaded", function () {
+    const steps = document.querySelectorAll(".customise-step");
+    const progressSteps = document.querySelectorAll(".progress-step");
+    const previousButton = document.getElementById("previous-step");
+    const nextButton = document.getElementById("next-step");
 
     if (!steps.length || !previousButton || !nextButton) {
         return;
@@ -16,96 +17,116 @@ document.addEventListener('DOMContentLoaded', function () {
         wrapping: null,
         ribbon: null,
         theme_colour: null,
-        bouquet_style: null
+        bouquet_style: null,
     };
 
-    const previewEmpty = document.getElementById('preview-empty');
-    const previewContent = document.getElementById('preview-content');
-    const previewBackdrop = document.getElementById('preview-backdrop');
+    const previewEmpty = document.getElementById("preview-empty");
+    const previewContent = document.getElementById("preview-content");
+    const previewBackdrop = document.getElementById("preview-backdrop");
 
-    const previewFlowers = document.getElementById('preview-flowers');
-    const previewWrapping = document.getElementById('preview-wrapping');
-    const previewRibbon = document.getElementById('preview-ribbon');
+    const previewFlowers = document.getElementById("preview-flowers");
+    const previewWrapping = document.getElementById("preview-wrapping");
+    const previewRibbon = document.getElementById("preview-ribbon");
 
-    const previewSelections = document.getElementById('preview-selections');
-    const previewTotal = document.getElementById('preview-total');
-    const reviewSummary = document.getElementById('review-summary');
+    const previewSelections = document.getElementById("preview-selections");
+    const previewTotal = document.getElementById("preview-total");
+    const reviewSummary = document.getElementById("review-summary");
 
-    const previewTheme = document.getElementById('preview-theme');
-    const previewStyle = document.getElementById('preview-style');
+    const previewTheme = document.getElementById("preview-theme");
+    const previewStyle = document.getElementById("preview-style");
 
-    // Langkah 1: kategori dahulu, kemudian bunga mengikut kategori
-    const categoryPicker = document.getElementById('flower-categories');
-    const flowerBrowser = document.getElementById('flower-browser');
-    const flowerBackButton = document.getElementById('flower-back');
-    const flowerCategoryName = document.getElementById('flower-category-name');
-    const flowersDescription = document.getElementById('flowers-description');
-    const flowerEmpty = document.getElementById('flower-empty');
-    const categoryPicks = Array.from(document.querySelectorAll('.category-pick'));
+    const categoryPicker = document.getElementById("flower-categories");
+    const flowerBrowser = document.getElementById("flower-browser");
+    const flowerBackButton = document.getElementById("flower-back");
+    const flowerCategoryName = document.getElementById("flower-category-name");
+    const flowersDescription = document.getElementById("flowers-description");
+    const flowerEmpty = document.getElementById("flower-empty");
+
+    const categoryPicks = Array.from(
+        document.querySelectorAll(".category-pick")
+    );
+
     const hasCategories = categoryPicks.length > 0;
 
-    // null = tunjuk senarai kategori | '<id>' = bunga dalam kategori | 'all' = tiada kategori (tunjuk semua)
-    let activeCategory = hasCategories ? null : 'all';
+    let activeCategory = hasCategories ? null : "all";
 
     /*
     |--------------------------------------------------------------------------
-    | Configuration & Shapes
+    | Configuration
     |--------------------------------------------------------------------------
-    | rx / ry = radius sebaran bunga (% daripada kotak preview)
-    | cy      = kedudukan tengah sebaran dari atas (%)
     */
+
     const MAX_PREVIEW_FLOWERS = 30;
     const GOLDEN_ANGLE = 2.399963;
 
-    const DEFAULT_SHAPE = { rx: 22, ry: 17, cy: 33 };
+    const DEFAULT_SHAPE = {
+        rx: 18,
+        ry: 17,
+        cy: 39,
+    };
 
     const STYLE_SHAPES = [
-        { keywords: ['cascade', 'teardrop', 'tear'], shape: { rx: 17, ry: 24, cy: 36 } },
-        { keywords: ['wide', 'natural', 'garden', 'wild'], shape: { rx: 28, ry: 16, cy: 33 } },
-        { keywords: ['compact', 'mini', 'small', 'posy'], shape: { rx: 16, ry: 13, cy: 35 } },
-        { keywords: ['round', 'bulat', 'dome', 'classic'], shape: { rx: 23, ry: 19, cy: 33 } }
+        {
+            keywords: ["cascade", "teardrop", "tear"],
+            shape: { rx: 14, ry: 22, cy: 40 },
+        },
+        {
+            keywords: ["wide", "natural", "garden", "wild"],
+            shape: { rx: 22, ry: 15, cy: 39 },
+        },
+        {
+            keywords: ["compact", "mini", "small", "posy"],
+            shape: { rx: 13, ry: 12, cy: 40 },
+        },
+        {
+            keywords: ["round", "bulat", "dome", "classic"],
+            shape: { rx: 18, ry: 17, cy: 39 },
+        },
     ];
 
     const THEME_COLOURS = {
-        'pink': '#f8d3dc',
-        'merah jambu': '#f8d3dc',
-        'blush': '#f6dcdc',
-        'rose': '#f4c2c9',
-        'red': '#f3b8b8',
-        'merah': '#f3b8b8',
-        'white': '#f7f5f2',
-        'putih': '#f7f5f2',
-        'cream': '#f5ebd7',
-        'krim': '#f5ebd7',
-        'yellow': '#fbeaa8',
-        'kuning': '#fbeaa8',
-        'orange': '#fbd5b0',
-        'oren': '#fbd5b0',
-        'peach': '#fbdcc8',
-        'purple': '#dccdf0',
-        'ungu': '#dccdf0',
-        'lavender': '#e3d9f3',
-        'blue': '#cfe0f5',
-        'biru': '#cfe0f5',
-        'green': '#d2e8d0',
-        'hijau': '#d2e8d0',
-        'pastel': '#f3e6ee'
+        pink: "#f8d3dc",
+        "merah jambu": "#f8d3dc",
+        blush: "#f6dcdc",
+        rose: "#f4c2c9",
+        red: "#f3b8b8",
+        merah: "#f3b8b8",
+        white: "#f7f5f2",
+        putih: "#f7f5f2",
+        cream: "#f5ebd7",
+        krim: "#f5ebd7",
+        yellow: "#fbeaa8",
+        kuning: "#fbeaa8",
+        orange: "#fbd5b0",
+        oren: "#fbd5b0",
+        peach: "#fbdcc8",
+        purple: "#dccdf0",
+        ungu: "#dccdf0",
+        lavender: "#e3d9f3",
+        blue: "#cfe0f5",
+        biru: "#cfe0f5",
+        green: "#d2e8d0",
+        hijau: "#d2e8d0",
+        pastel: "#f3e6ee",
     };
 
     /*
     |--------------------------------------------------------------------------
-    | Helpers
+    | Helper Functions
     |--------------------------------------------------------------------------
     */
+
     function money(amount) {
-        return 'RM' + amount.toFixed(2);
+        return "RM" + Number(amount || 0).toFixed(2);
     }
 
     function getFlowerTotal() {
         let total = 0;
+
         selectedFlowers.forEach(function (flower) {
             total += flower.price * flower.quantity;
         });
+
         return total;
     }
 
@@ -121,23 +142,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addPreviewImage(container, src, alt, className) {
         if (!container || !src) {
-            return;
+            return null;
         }
 
-        const image = document.createElement('img');
+        const image = document.createElement("img");
+
         image.src = src;
-        image.alt = alt || '';
-        image.loading = 'eager';
+        image.alt = alt || "";
+        image.loading = "eager";
+        image.draggable = false;
 
         if (className) {
             image.className = className;
         }
 
-        image.addEventListener('error', function () {
+        image.addEventListener("error", function () {
             image.remove();
         });
 
         container.appendChild(image);
+
+        return image;
     }
 
     function addLine(container, name, price) {
@@ -145,16 +170,17 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const line = document.createElement('div');
-        line.className = 'selection-line';
+        const line = document.createElement("div");
+        line.className = "selection-line";
 
-        const nameElement = document.createElement('span');
+        const nameElement = document.createElement("span");
         nameElement.textContent = name;
 
-        const priceElement = document.createElement('span');
+        const priceElement = document.createElement("span");
         priceElement.textContent = price;
 
         line.append(nameElement, priceElement);
+
         container.appendChild(line);
     }
 
@@ -168,11 +194,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getShape() {
         const style = selectedOptions.bouquet_style;
-        if (!style) {
+
+        if (!style || !style.name) {
             return DEFAULT_SHAPE;
         }
 
         const name = style.name.toLowerCase();
+
         for (let i = 0; i < STYLE_SHAPES.length; i++) {
             const matched = STYLE_SHAPES[i].keywords.some(function (keyword) {
                 return name.includes(keyword);
@@ -188,15 +216,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getThemeColour() {
         const theme = selectedOptions.theme_colour;
+
         if (!theme) {
-            return '';
+            return "";
         }
 
-        if (/^#[0-9a-fA-F]{6}$/.test(theme.colour || '')) {
+        if (/^#[0-9a-fA-F]{6}$/.test(theme.colour || "")) {
             return theme.colour;
         }
 
-        const name = theme.name.toLowerCase();
+        const name = (theme.name || "").toLowerCase();
         const keys = Object.keys(THEME_COLOURS);
 
         for (let i = 0; i < keys.length; i++) {
@@ -205,24 +234,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        return '';
+        return "";
     }
 
-    // Papar jumlah bunga yang dipilih pada setiap kad kategori
+    /*
+    |--------------------------------------------------------------------------
+    | Category Selection Badges
+    |--------------------------------------------------------------------------
+    */
+
     function updateCategoryBadges() {
         categoryPicks.forEach(function (pick) {
-            const id = pick.dataset.categoryId;
+            const categoryId = pick.dataset.categoryId;
             let count = 0;
 
             selectedFlowers.forEach(function (flower) {
-                if (String(flower.categoryId) === String(id)) {
+                if (String(flower.categoryId) === String(categoryId)) {
                     count += flower.quantity;
                 }
             });
 
-            const badge = pick.querySelector('.category-pick-selected');
+            const badge = pick.querySelector(".category-pick-selected");
+
             if (badge) {
-                badge.textContent = count + ' selected';
+                badge.textContent = count + " selected";
                 badge.hidden = count === 0;
             }
         });
@@ -230,37 +265,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Progress and Navigation
+    | Step Navigation
     |--------------------------------------------------------------------------
     */
+
+    function scrollToOptions() {
+        const optionsSection = document.querySelector(".customise-options");
+
+        if (optionsSection) {
+            optionsSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }
+
     function renderSteps() {
         steps.forEach(function (step, index) {
-            step.classList.toggle('active', index === currentStep);
+            step.classList.toggle("active", index === currentStep);
         });
 
         progressSteps.forEach(function (step, index) {
-            step.classList.toggle('active', index === currentStep);
-            step.classList.toggle('completed', index < currentStep);
+            step.classList.toggle("active", index === currentStep);
+            step.classList.toggle("completed", index < currentStep);
         });
 
         previousButton.disabled = currentStep === 0;
 
         nextButton.textContent =
-            currentStep === steps.length - 1
-                ? 'Add to Cart'
-                : 'Next';
+            currentStep === steps.length - 1 ? "Add to Cart" : "Next";
 
         if (currentStep === steps.length - 1) {
             renderReview();
         }
 
-        const optionsSection = document.querySelector('.customise-options');
-        if (optionsSection) {
-            optionsSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        scrollToOptions();
     }
 
     /*
@@ -268,10 +307,11 @@ document.addEventListener('DOMContentLoaded', function () {
     | Flower Quantity Controls
     |--------------------------------------------------------------------------
     */
-    document.querySelectorAll('.flower-option').forEach(function (card) {
-        const minusButton = card.querySelector('.quantity-minus');
-        const plusButton = card.querySelector('.quantity-plus');
-        const quantityElement = card.querySelector('.quantity-value');
+
+    document.querySelectorAll(".flower-option").forEach(function (card) {
+        const minusButton = card.querySelector(".quantity-minus");
+        const plusButton = card.querySelector(".quantity-plus");
+        const quantityElement = card.querySelector(".quantity-value");
 
         if (!minusButton || !plusButton || !quantityElement) {
             return;
@@ -281,13 +321,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const flower = {
             id: flowerId,
-            categoryId: card.dataset.categoryId || '',
-            name: card.dataset.flowerName || 'Flower',
+            categoryId: card.dataset.categoryId || "",
+            name: card.dataset.flowerName || "Flower",
             price: Number(card.dataset.flowerPrice) || 0,
             stock: Math.max(0, Number(card.dataset.flowerStock) || 0),
-            image: card.dataset.flowerImage || '',
-            preview: card.dataset.flowerPreview || card.dataset.flowerImage || '',
-            quantity: 0
+            image: card.dataset.flowerImage || "",
+            quantity: 0,
         };
 
         function updateQuantity(quantity) {
@@ -311,11 +350,11 @@ document.addEventListener('DOMContentLoaded', function () {
             updateCategoryBadges();
         }
 
-        minusButton.addEventListener('click', function () {
+        minusButton.addEventListener("click", function () {
             updateQuantity(flower.quantity - 1);
         });
 
-        plusButton.addEventListener('click', function () {
+        plusButton.addEventListener("click", function () {
             updateQuantity(flower.quantity + 1);
         });
 
@@ -324,32 +363,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Flower Categories + Pagination (2 baris setiap halaman)
+    | Flower Categories and Pagination
     |--------------------------------------------------------------------------
-    | Bilangan lajur dibaca daripada CSS (--flower-cols), jadi bilangan bunga
-    | setiap halaman = lajur x 2 baris dan sentiasa ikut saiz skrin.
     */
-    const flowerGrid = document.querySelector('.flower-options');
-    const flowerCards = Array.from(document.querySelectorAll('.flower-option'));
+
+    const flowerGrid = document.querySelector(".flower-options");
+
+    const flowerCards = Array.from(
+        document.querySelectorAll(".flower-option")
+    );
+
     const FLOWER_ROWS = 2;
+
     let flowerPage = 0;
 
-    const flowerPager = document.createElement('div');
-    flowerPager.className = 'flower-pager';
+    const flowerPager = document.createElement("div");
+    flowerPager.className = "flower-pager";
     flowerPager.hidden = true;
 
-    const flowerPrev = document.createElement('button');
-    flowerPrev.type = 'button';
-    flowerPrev.textContent = '‹ Previous';
+    const flowerPrev = document.createElement("button");
+    flowerPrev.type = "button";
+    flowerPrev.textContent = "‹ Previous";
 
-    const flowerPageLabel = document.createElement('span');
-    flowerPageLabel.className = 'flower-pager-label';
+    const flowerPageLabel = document.createElement("span");
+    flowerPageLabel.className = "flower-pager-label";
 
-    const flowerNext = document.createElement('button');
-    flowerNext.type = 'button';
-    flowerNext.textContent = 'Next ›';
+    const flowerNext = document.createElement("button");
+    flowerNext.type = "button";
+    flowerNext.textContent = "Next ›";
 
-    flowerPager.append(flowerPrev, flowerPageLabel, flowerNext);
+    flowerPager.append(
+        flowerPrev,
+        flowerPageLabel,
+        flowerNext
+    );
 
     if (flowerGrid) {
         flowerGrid.after(flowerPager);
@@ -360,42 +407,60 @@ document.addEventListener('DOMContentLoaded', function () {
             return flowerCards.length || 1;
         }
 
-        const columns = parseInt(
-            getComputedStyle(flowerGrid).getPropertyValue('--flower-cols'),
-            10
-        ) || 4;
+        const columns =
+            parseInt(
+                getComputedStyle(flowerGrid).getPropertyValue(
+                    "--flower-cols"
+                ),
+                10
+            ) || 4;
 
         return columns * FLOWER_ROWS;
     }
 
-    // Bunga yang patut dipaparkan mengikut kategori yang dipilih
     function getVisibleFlowers() {
-        if (activeCategory === null || activeCategory === 'all') {
+        if (activeCategory === null || activeCategory === "all") {
             return flowerCards;
         }
 
         return flowerCards.filter(function (card) {
-            return String(card.dataset.categoryId) === String(activeCategory);
+            return (
+                String(card.dataset.categoryId) ===
+                String(activeCategory)
+            );
         });
     }
 
     function renderFlowerPage() {
         if (!flowerGrid || !flowerCards.length) {
+            if (flowerEmpty) {
+                flowerEmpty.hidden = true;
+            }
+
+            flowerPager.hidden = true;
             return;
         }
 
         const list = getVisibleFlowers();
         const perPage = getFlowersPerPage();
-        const pages = Math.max(1, Math.ceil(list.length / perPage));
 
-        flowerPage = Math.min(flowerPage, pages - 1);
+        const pages = Math.max(
+            1,
+            Math.ceil(list.length / perPage)
+        );
+
+        flowerPage = Math.max(
+            0,
+            Math.min(flowerPage, pages - 1)
+        );
 
         flowerCards.forEach(function (card) {
             card.hidden = true;
         });
 
         list.forEach(function (card, index) {
-            card.hidden = Math.floor(index / perPage) !== flowerPage;
+            card.hidden =
+                Math.floor(index / perPage) !== flowerPage;
         });
 
         if (flowerEmpty) {
@@ -403,12 +468,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         flowerPager.hidden = pages <= 1;
-        flowerPageLabel.textContent = 'Page ' + (flowerPage + 1) + ' of ' + pages;
+
+        flowerPageLabel.textContent =
+            "Page " + (flowerPage + 1) + " of " + pages;
+
         flowerPrev.disabled = flowerPage === 0;
         flowerNext.disabled = flowerPage >= pages - 1;
     }
 
-    // Tukar antara paparan kategori dan paparan bunga
     function renderFlowerView() {
         const browsing = activeCategory !== null;
 
@@ -420,33 +487,27 @@ document.addEventListener('DOMContentLoaded', function () {
             flowerBrowser.hidden = !browsing;
         }
 
-        if (flowerBackButton) {
+        if (flowerBackButton && flowerBackButton.parentElement) {
             flowerBackButton.parentElement.hidden = !hasCategories;
         }
 
         if (flowersDescription) {
             flowersDescription.textContent = browsing
-                ? 'Select the flowers you want in your bouquet.'
-                : 'Pick a category first, then choose your flowers.';
+                ? "Select the flowers you want in your bouquet."
+                : "Pick a category first, then choose your flowers.";
         }
 
         renderFlowerPage();
     }
 
-    function scrollToOptions() {
-        const optionsSection = document.querySelector('.customise-options');
-        if (optionsSection) {
-            optionsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-
     categoryPicks.forEach(function (pick) {
-        pick.addEventListener('click', function () {
+        pick.addEventListener("click", function () {
             activeCategory = pick.dataset.categoryId;
             flowerPage = 0;
 
             if (flowerCategoryName) {
-                flowerCategoryName.textContent = pick.dataset.categoryName || '';
+                flowerCategoryName.textContent =
+                    pick.dataset.categoryName || "";
             }
 
             renderFlowerView();
@@ -455,25 +516,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     if (flowerBackButton) {
-        flowerBackButton.addEventListener('click', function () {
+        flowerBackButton.addEventListener("click", function () {
             activeCategory = null;
             flowerPage = 0;
+
             renderFlowerView();
             scrollToOptions();
         });
     }
 
-    flowerPrev.addEventListener('click', function () {
-        flowerPage--;
-        renderFlowerPage();
+    flowerPrev.addEventListener("click", function () {
+        if (flowerPage > 0) {
+            flowerPage--;
+            renderFlowerPage();
+        }
     });
 
-    flowerNext.addEventListener('click', function () {
-        flowerPage++;
-        renderFlowerPage();
+    flowerNext.addEventListener("click", function () {
+        const list = getVisibleFlowers();
+
+        const pages = Math.max(
+            1,
+            Math.ceil(list.length / getFlowersPerPage())
+        );
+
+        if (flowerPage < pages - 1) {
+            flowerPage++;
+            renderFlowerPage();
+        }
     });
 
-    window.addEventListener('resize', renderFlowerPage);
+    window.addEventListener("resize", renderFlowerPage);
+
     renderFlowerView();
     updateCategoryBadges();
 
@@ -482,56 +556,93 @@ document.addEventListener('DOMContentLoaded', function () {
     | Customisation Option Selection
     |--------------------------------------------------------------------------
     */
-    document.querySelectorAll('.selectable-option').forEach(function (button) {
-        button.addEventListener('click', function () {
-            const type = button.dataset.optionType;
 
-            if (!Object.prototype.hasOwnProperty.call(selectedOptions, type)) {
-                return;
-            }
+    document.querySelectorAll(".selectable-option").forEach(
+        function (button) {
+            button.addEventListener("click", function () {
+                const type = button.dataset.optionType;
 
-            const optionImage = button.dataset.optionImage || '';
+                if (
+                    !Object.prototype.hasOwnProperty.call(
+                        selectedOptions,
+                        type
+                    )
+                ) {
+                    return;
+                }
 
-            const option = {
-                id: button.dataset.optionId,
-                name: button.dataset.optionName || 'Option',
-                price: Number(button.dataset.optionPrice) || 0,
-                image: optionImage,
-                preview: optionImage,
-                colour: button.dataset.optionColour || ''
-            };
+                const optionImage =
+                    button.dataset.optionImage || "";
 
-            selectedOptions[type] = option;
+                selectedOptions[type] = {
+                    id: button.dataset.optionId,
+                    name: button.dataset.optionName || "Option",
+                    price: Number(button.dataset.optionPrice) || 0,
+                    image: optionImage,
+                    preview: optionImage,
+                    colour: button.dataset.optionColour || "",
+                };
 
-            document.querySelectorAll(
-                '.selectable-option[data-option-type="' + type + '"]'
-            ).forEach(function (otherButton) {
-                const isSelected = otherButton === button;
-                otherButton.classList.toggle('selected', isSelected);
-                otherButton.setAttribute('aria-pressed', String(isSelected));
+                document
+                    .querySelectorAll(
+                        '.selectable-option[data-option-type="' +
+                            type +
+                            '"]'
+                    )
+                    .forEach(function (otherButton) {
+                        const isSelected = otherButton === button;
+
+                        otherButton.classList.toggle(
+                            "selected",
+                            isSelected
+                        );
+
+                        otherButton.setAttribute(
+                            "aria-pressed",
+                            String(isSelected)
+                        );
+                    });
+
+                renderPreview();
             });
-
-            renderPreview();
-        });
-    });
+        }
+    );
 
     /*
     |--------------------------------------------------------------------------
     | Flower Cluster Rendering
     |--------------------------------------------------------------------------
     */
+
     function renderFlowerCluster() {
-        const queues = Array.from(selectedFlowers.values()).map(function (flower) {
-            return { flower: flower, left: flower.quantity };
+        if (!previewFlowers) {
+            return;
+        }
+
+        previewFlowers.replaceChildren();
+
+        const queues = Array.from(
+            selectedFlowers.values()
+        ).map(function (flower) {
+            return {
+                flower: flower,
+                left: flower.quantity,
+            };
         });
 
         const items = [];
+
+        // Mix different flower types evenly.
         let added = true;
 
         while (added && items.length < MAX_PREVIEW_FLOWERS) {
             added = false;
+
             queues.forEach(function (queue) {
-                if (queue.left > 0 && items.length < MAX_PREVIEW_FLOWERS) {
+                if (
+                    queue.left > 0 &&
+                    items.length < MAX_PREVIEW_FLOWERS
+                ) {
                     items.push(queue.flower);
                     queue.left--;
                     added = true;
@@ -540,39 +651,87 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const total = items.length;
-        if (!total) {
+
+        if (total === 0) {
             return;
         }
 
         const shape = getShape();
 
-        // Saiz bunga mengecil bila bilangan bunga bertambah
-        const size = Math.max(15, 36 - total * 1);
+        // Flower size changes according to quantity.
+        let size;
+
+        if (total === 1) {
+            size = 30;
+        } else if (total <= 3) {
+            size = 25;
+        } else if (total <= 6) {
+            size = 22;
+        } else if (total <= 10) {
+            size = 19;
+        } else if (total <= 20) {
+            size = 16;
+        } else {
+            size = 14;
+        }
+
+        /*
+         * Move flowers down into the wrapping.
+         * Keep flower heads close to one another.
+         */
+        const centerX = 50;
+        const centerY = total === 1 ? 43 : 46;
+
+        const radiusX = shape.rx * 0.55;
+        const radiusY = shape.ry * 0.45;
 
         items.forEach(function (flower, index) {
-            const source = flower.preview || flower.image;
-            if (!source) {
+            if (!flower.image) {
                 return;
             }
 
-            const ratio = total === 1 ? 0 : Math.sqrt((index + 0.5) / total);
-            const angle = index * GOLDEN_ANGLE;
+            let x = centerX;
+            let y = centerY;
 
-            const x = 50 + shape.rx * ratio * Math.cos(angle);
-            const y = shape.cy + shape.ry * ratio * Math.sin(angle);
-            const rotation = ((index * 47) % 50) - 25;
+            if (total > 1) {
+                const ratio = Math.sqrt(
+                    (index + 0.5) / total
+                );
 
-            const image = document.createElement('img');
-            image.src = source;
+                const angle = index * GOLDEN_ANGLE;
+
+                x =
+                    centerX +
+                    radiusX * ratio * Math.cos(angle);
+
+                y =
+                    centerY +
+                    radiusY * ratio * Math.sin(angle);
+            }
+
+            const image = document.createElement("img");
+
+            image.src = flower.image;
             image.alt = flower.name;
-            image.className = 'preview-flower-image';
-            image.style.width = size + '%';
-            image.style.left = x + '%';
-            image.style.top = y + '%';
-            image.style.zIndex = String(total - index);
-            image.style.transform = 'translate(-50%, -50%) rotate(' + rotation + 'deg)';
+            image.className = "preview-flower-image";
+            image.loading = "eager";
+            image.draggable = false;
 
-            image.addEventListener('error', function () {
+            image.style.position = "absolute";
+            image.style.width = size + "%";
+            image.style.height = "auto";
+            image.style.maxWidth = "none";
+            image.style.left = x + "%";
+            image.style.top = y + "%";
+            image.style.objectFit = "contain";
+
+            // Position each image so flower heads overlap.
+            image.style.transform = "translate(-50%, -18%)";
+
+            image.style.zIndex = String(index + 1);
+            image.style.pointerEvents = "none";
+
+            image.addEventListener("error", function () {
                 image.remove();
             });
 
@@ -582,9 +741,82 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Live Bouquet Preview Rendering
+    | Wrapping Foreground Layer
     |--------------------------------------------------------------------------
     */
+
+    let previewWrappingFront = null;
+
+    function createWrappingFrontLayer() {
+        if (!previewContent) {
+            return null;
+        }
+
+        if (previewWrappingFront) {
+            return previewWrappingFront;
+        }
+
+        previewWrappingFront = document.createElement("div");
+
+        previewWrappingFront.id = "preview-wrapping-front";
+        previewWrappingFront.setAttribute("aria-hidden", "true");
+
+        previewWrappingFront.style.position = "absolute";
+        previewWrappingFront.style.inset = "0";
+        previewWrappingFront.style.width = "100%";
+        previewWrappingFront.style.height = "100%";
+        previewWrappingFront.style.zIndex = "3";
+        previewWrappingFront.style.pointerEvents = "none";
+        previewWrappingFront.style.overflow = "hidden";
+
+        previewContent.appendChild(previewWrappingFront);
+
+        return previewWrappingFront;
+    }
+
+    function renderWrappingFront() {
+        const frontLayer = createWrappingFrontLayer();
+
+        if (!frontLayer) {
+            return;
+        }
+
+        frontLayer.replaceChildren();
+
+        const wrapping = selectedOptions.wrapping;
+
+        if (!wrapping || !wrapping.preview) {
+            return;
+        }
+
+        const image = addPreviewImage(
+            frontLayer,
+            wrapping.preview,
+            "",
+            "preview-wrapping-image"
+        );
+
+        if (!image) {
+            return;
+        }
+
+        /*
+         * Show only the lower part of the wrapping image.
+         * This creates a foreground layer over the flower stems.
+         *
+         * Adjust 48% if the wrapping covers too much or too little.
+         */
+        image.style.clipPath = "inset(48% 0 0 0)";
+        image.style.webkitClipPath = "inset(48% 0 0 0)";
+        image.style.pointerEvents = "none";
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Live Bouquet Preview
+    |--------------------------------------------------------------------------
+    */
+
     function renderPreview() {
         if (
             !previewEmpty ||
@@ -604,7 +836,10 @@ document.addEventListener('DOMContentLoaded', function () {
         previewSelections.replaceChildren();
 
         const hasFlowers = selectedFlowers.size > 0;
-        const hasOptions = Object.values(selectedOptions).some(function (option) {
+
+        const hasOptions = Object.values(
+            selectedOptions
+        ).some(function (option) {
             return option !== null;
         });
 
@@ -613,68 +848,123 @@ document.addEventListener('DOMContentLoaded', function () {
         previewEmpty.hidden = hasSelection;
         previewContent.hidden = !hasSelection;
 
-        // 1. Wrapping Layer (Back)
+        /*
+         * Layer order:
+         * 1. Wrapping behind flowers
+         * 2. Flowers
+         * 3. Lower wrapping foreground over the stems
+         * 4. Ribbon
+         */
+
+        previewContent.style.position = "relative";
+
+        previewWrapping.style.position = "absolute";
+        previewWrapping.style.inset = "0";
+        previewWrapping.style.width = "100%";
+        previewWrapping.style.height = "100%";
+        previewWrapping.style.zIndex = "1";
+        previewWrapping.style.pointerEvents = "none";
+
+        previewFlowers.style.position = "absolute";
+        previewFlowers.style.inset = "0";
+        previewFlowers.style.width = "100%";
+        previewFlowers.style.height = "100%";
+        previewFlowers.style.zIndex = "2";
+        previewFlowers.style.pointerEvents = "none";
+
+        previewRibbon.style.position = "absolute";
+        previewRibbon.style.inset = "0";
+        previewRibbon.style.width = "100%";
+        previewRibbon.style.height = "100%";
+        previewRibbon.style.zIndex = "4";
+        previewRibbon.style.pointerEvents = "none";
+
+        // Layer 1: Wrapping behind the flowers.
         const wrapping = selectedOptions.wrapping;
+
         if (wrapping && wrapping.preview) {
             addPreviewImage(
                 previewWrapping,
                 wrapping.preview,
                 wrapping.name,
-                'preview-wrapping-image'
+                "preview-wrapping-image"
             );
         }
 
-        // 2. Flower Cluster Layer (Middle)
+        // Layer 2: Flowers in front of the wrapping.
         renderFlowerCluster();
 
+        // Layer 3: Wrapping covers the lower flower stems.
+        
+
+        // Flower price details.
         selectedFlowers.forEach(function (flower) {
             addSelectionLine(
-                flower.name + ' × ' + flower.quantity,
+                flower.name + " × " + flower.quantity,
                 money(flower.price * flower.quantity)
             );
         });
 
-        // 3. Ribbon Layer (Front)
+        // Layer 4: Ribbon in front of the bouquet.
         const ribbon = selectedOptions.ribbon;
+
         if (ribbon && ribbon.preview) {
             addPreviewImage(
                 previewRibbon,
                 ribbon.preview,
                 ribbon.name,
-                'preview-ribbon-image'
+                "preview-ribbon-image"
             );
         }
 
-        // 4. Backdrop & Labels
+        // Theme colour backdrop.
         if (previewBackdrop) {
             const colour = getThemeColour();
+
             previewBackdrop.style.background = colour
-                ? 'radial-gradient(circle at 50% 42%, ' + colour + ' 0%, ' + colour + 'cc 38%, ' + colour + '00 78%)'
-                : '';
+                ? "radial-gradient(circle at 50% 42%, " +
+                  colour +
+                  " 0%, " +
+                  colour +
+                  "cc 38%, " +
+                  colour +
+                  "00 78%)"
+                : "";
         }
 
+        // Theme and bouquet style labels.
         if (previewTheme) {
-            previewTheme.textContent = selectedOptions.theme_colour
-                ? selectedOptions.theme_colour.name
-                : '';
+            previewTheme.textContent =
+                selectedOptions.theme_colour
+                    ? selectedOptions.theme_colour.name
+                    : "";
         }
 
         if (previewStyle) {
-            previewStyle.textContent = selectedOptions.bouquet_style
-                ? selectedOptions.bouquet_style.name
-                : '';
+            previewStyle.textContent =
+                selectedOptions.bouquet_style
+                    ? selectedOptions.bouquet_style.name
+                    : "";
         }
 
-        Object.values(selectedOptions).forEach(function (option) {
-            if (option) {
-                addSelectionLine(option.name, money(option.price));
+        // Selected options and prices.
+        Object.values(selectedOptions).forEach(
+            function (option) {
+                if (option) {
+                    addSelectionLine(
+                        option.name,
+                        money(option.price)
+                    );
+                }
             }
-        });
+        );
 
         if (!previewSelections.children.length) {
-            const empty = document.createElement('p');
-            empty.className = 'empty-selection';
-            empty.textContent = 'No items selected yet.';
+            const empty = document.createElement("p");
+
+            empty.className = "empty-selection";
+            empty.textContent = "No items selected yet.";
+
             previewSelections.appendChild(empty);
         }
 
@@ -686,6 +976,7 @@ document.addEventListener('DOMContentLoaded', function () {
     | Review Summary
     |--------------------------------------------------------------------------
     */
+
     function renderReview() {
         if (!reviewSummary) {
             return;
@@ -694,43 +985,59 @@ document.addEventListener('DOMContentLoaded', function () {
         reviewSummary.replaceChildren();
 
         if (selectedFlowers.size === 0) {
-            const message = document.createElement('p');
-            message.textContent = 'Please select at least one flower.';
+            const message = document.createElement("p");
+
+            message.textContent =
+                "Please select at least one flower.";
+
             reviewSummary.appendChild(message);
+
             return;
         }
 
         selectedFlowers.forEach(function (flower) {
             addReviewLine(
-                flower.name + ' × ' + flower.quantity,
+                flower.name + " × " + flower.quantity,
                 money(flower.price * flower.quantity)
             );
         });
 
-        Object.values(selectedOptions).forEach(function (option) {
-            if (option) {
-                addReviewLine(option.name, money(option.price));
+        Object.values(selectedOptions).forEach(
+            function (option) {
+                if (option) {
+                    addReviewLine(
+                        option.name,
+                        money(option.price)
+                    );
+                }
             }
-        });
+        );
 
-        addReviewLine('Estimated total', money(getTotal()));
+        addReviewLine(
+            "Estimated total",
+            money(getTotal())
+        );
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Button Listeners
+    | Navigation Buttons
     |--------------------------------------------------------------------------
     */
-    previousButton.addEventListener('click', function () {
+
+    previousButton.addEventListener("click", function () {
         if (currentStep > 0) {
             currentStep--;
             renderSteps();
         }
     });
 
-    nextButton.addEventListener('click', function () {
-        if (currentStep === 0 && selectedFlowers.size === 0) {
-            alert('Please choose at least one flower.');
+    nextButton.addEventListener("click", function () {
+        if (
+            currentStep === 0 &&
+            selectedFlowers.size === 0
+        ) {
+            alert("Please choose at least one flower.");
             return;
         }
 
@@ -741,10 +1048,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         alert(
-            'Your bouquet preview is ready. ' +
-            'The Add to Cart function still needs to be connected to Laravel.'
+            "Your bouquet preview is ready. " +
+                "The Add to Cart function still needs to be " +
+                "connected to Laravel."
         );
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Initialisation
+    |--------------------------------------------------------------------------
+    */
 
     renderPreview();
     renderSteps();

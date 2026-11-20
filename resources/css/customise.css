@@ -86,7 +86,7 @@
 
 .customise-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.8fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
     align-items: start;
     gap: 32px;
 }
@@ -402,7 +402,7 @@
 .preview-image-area {
     position: relative;
     display: block;
-    height: 360px;
+    height: 460px;
     margin: 0 20px;
     padding: 12px;
     overflow: hidden;
@@ -438,19 +438,27 @@
 }
 
 #preview-content.bouquet-composition {
-    /* Penalaan ribbon: ubah dua nilai ini jika perlu */
-    --ribbon-width: 30%;   /* saiz ribbon */
-    --ribbon-bottom: 16%;  /* tinggi ribbon dari bawah (di bahagian ikatan) */
+    /* Penalaan saiz & kedudukan bouquet (kurangkan --bouquet-top untuk naikkan ke atas) */
+    --preview-scale: 1.48;
+    --bouquet-top: 40%;
+
+    /* Penalaan ribbon: laras --ribbon-bottom supaya duduk tepat pada ikatan wrapping */
+    --ribbon-width: 22%;
+    --ribbon-bottom: 19%;
+
+    /* Pudarkan kaki/batang bunga lebih awal dan lebih lembut ke dalam wrapper */
+    --flower-fade-from: 50%;
+    --flower-fade-to: 66%;
 
     position: absolute;
-    top: 50%;
+    top: var(--bouquet-top);
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 340px;
-    height: 330px;
+    transform: translate(-50%, -50%) scale(var(--preview-scale));
+    width: min(350px, 100%);
+    height: 340px;
     text-align: center;
+    isolation: isolate;
 }
-
 .bouquet-backdrop {
     position: absolute;
     inset: 0;
@@ -476,6 +484,26 @@
 
 .flowers-layer {
     z-index: 2;
+
+    /*
+       Keep the flower heads visible and gradually fade the lower stems
+       into the wrapper. This is a visual blend; a true front paper flap
+       requires a separate foreground wrapper image/layer.
+    */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 var(--flower-fade-from, 58%),
+        rgba(0, 0, 0, 0.85) 59%,
+        transparent var(--flower-fade-to, 69%)
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 var(--flower-fade-from, 58%),
+        rgba(0, 0, 0, 0.85) 59%,
+        transparent var(--flower-fade-to, 69%)
+    );
 }
 
 .ribbon-layer {
@@ -485,12 +513,14 @@
 .bouquet-layer img.preview-flower-image {
     position: absolute;
     inset: auto;
-    width: 30%;
+    width: 30%; /* customise.js overrides this based on flower count */
     height: auto;
     max-width: none;
     max-height: none;
     aspect-ratio: 1 / 1;
     object-fit: contain;
+    object-position: center;
+    transform-origin: center bottom;
     filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.18));
 }
 
@@ -514,8 +544,8 @@
     position: absolute;
     inset: auto;
     left: 50%;
-    bottom: var(--ribbon-bottom, 16%);
-    width: var(--ribbon-width, 30%);
+    bottom: var(--ribbon-bottom, 19%);
+    width: var(--ribbon-width, 22%);
     height: auto;
     max-height: 40%;
     transform: translateX(-50%);
@@ -664,7 +694,7 @@
     }
 
     .preview-image-area {
-        min-height: 340px;
+        min-height: 360px;
     }
 }
 
@@ -728,14 +758,18 @@
     }
 
     .preview-image-area {
-        height: 300px;
+        height: 340px;
         margin-right: 12px;
         margin-left: 12px;
     }
 
     #preview-content.bouquet-composition {
-        width: 300px;
-        height: 280px;
+        --preview-scale: 1.32;
+        --bouquet-top: 40%;
+        --ribbon-width: 22%;
+        --ribbon-bottom: 18%;
+        width: min(310px, 100%);
+        height: 290px;
     }
 
     .step-navigation button {
