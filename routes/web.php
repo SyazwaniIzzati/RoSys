@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FlowerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomisationOptionController;
+use App\Http\Controllers\AiBouquetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -152,6 +153,11 @@ Route::middleware('auth')->group(function () {
         '/cart/custom-bouquet',
         [CartController::class, 'addCustomBouquet']
     )->name('cart.add-custom-bouquet');
+
+    Route::post(
+        '/customise/generate-ai',
+        [AiBouquetController::class, 'generate']
+    )->name('customise.generate-ai');
 });
 
 

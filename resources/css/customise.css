@@ -3,27 +3,39 @@
 ======================================== */
 
 .customise-page {
-    /* tarik halaman ke atas (rapat navbar); laras nilai ini jika perlu */
     --page-pull: 70px;
+    --text: #292929;
+    --muted: #777;
+    --border: #e5e5e5;
+    --surface: #fff;
+    --soft: #f5f1ed;
 
     max-width: 1400px;
     margin: calc(-1 * var(--page-pull)) auto 0;
     padding: 16px 24px 70px;
-    color: #292929;
+    color: var(--text);
 }
 
-.customise-page * {
+.customise-page *,
+.customise-page *::before,
+.customise-page *::after {
     box-sizing: border-box;
+}
+
+.customise-page button,
+.customise-page textarea {
+    font: inherit;
 }
 
 .customise-header {
     margin-bottom: 20px;
 }
 
-.customise-header .eyebrow {
+.customise-header .eyebrow,
+.ai-bouquet-header .eyebrow {
     font-size: 12px;
-    letter-spacing: 2px;
     font-weight: 600;
+    letter-spacing: 2px;
 }
 
 .customise-header h1 {
@@ -31,12 +43,13 @@
     font-size: 32px;
 }
 
-.customise-header > p:last-child {
-    color: #777;
+.customise-header > p:last-child,
+.step-description {
+    color: var(--muted);
 }
 
 /* ========================================
-   PROGRESS INDICATOR
+   PROGRESS
 ======================================== */
 
 .customise-progress {
@@ -47,8 +60,8 @@
 
 .progress-step {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     gap: 8px;
     color: #999;
 }
@@ -65,15 +78,15 @@
 
 .progress-step.active,
 .progress-step.completed {
-    color: #292929;
+    color: var(--text);
     font-weight: 600;
 }
 
 .progress-step.active span,
 .progress-step.completed span {
+    border-color: var(--text);
+    background: var(--text);
     color: white;
-    background: #292929;
-    border-color: #292929;
 }
 
 .progress-step small {
@@ -81,7 +94,7 @@
 }
 
 /* ========================================
-   MAIN LAYOUT
+   MAIN LAYOUT & STEPS
 ======================================== */
 
 .customise-layout {
@@ -91,7 +104,8 @@
     gap: 32px;
 }
 
-.customise-options {
+.customise-options,
+.live-preview {
     min-width: 0;
 }
 
@@ -110,17 +124,150 @@
 
 .step-description {
     margin-bottom: 24px;
-    color: #777;
     font-size: 14px;
     line-height: 1.6;
 }
 
 /* ========================================
-   FLOWER CARDS
+   FLOWER CATEGORIES
+======================================== */
+
+.flower-categories {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.flower-categories[hidden],
+.flower-browser[hidden],
+.flower-empty[hidden] {
+    display: none !important;
+}
+
+.category-pick {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 12px;
+    background: #f3e6ea;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+}
+
+.category-pick img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.category-pick:hover img {
+    transform: scale(1.05);
+}
+
+.category-pick::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        0deg,
+        rgba(29, 21, 23, 0.65),
+        transparent 70%
+    );
+    content: "";
+    pointer-events: none;
+}
+
+.category-pick-noimg {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.category-pick-info {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 12px;
+}
+
+.category-pick-info strong,
+.category-pick-info small {
+    display: block;
+}
+
+.category-pick-info strong {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.category-pick-info small {
+    margin-top: 3px;
+    font-size: 12px;
+}
+
+.category-pick-selected {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.category-pick-selected[hidden] {
+    display: none !important;
+}
+
+.flower-browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.flower-back {
+    padding: 8px 16px;
+    border: 1px solid var(--text);
+    border-radius: 6px;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.flower-back:hover {
+    background: var(--text);
+    color: white;
+}
+
+#flower-category-name {
+    font-size: 18px;
+}
+
+.flower-empty {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ========================================
+   FLOWER CARDS & PAGINATION
 ======================================== */
 
 .flower-options {
-    --flower-cols: 4;   /* 4 lajur x 2 baris = 8 bunga setiap halaman */
+    --flower-cols: 4;
 
     display: grid;
     grid-template-columns: repeat(var(--flower-cols), minmax(0, 1fr));
@@ -134,7 +281,7 @@
 .custom-option {
     min-width: 0;
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border);
     border-radius: 10px;
     background: white;
 }
@@ -147,12 +294,8 @@
 .selectable-option > img {
     display: block;
     width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.flower-option > img {
     height: 150px;
+    object-fit: cover;
 }
 
 .option-image-placeholder {
@@ -161,7 +304,7 @@
     min-height: 120px;
     padding: 12px;
     background: #f3f3f3;
-    color: #777;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -182,14 +325,11 @@
 .option-details small {
     display: block;
     margin-top: 8px;
-    color: #777;
+    color: var(--muted);
 }
 
-/* ========================================
-   FLOWER PAGINATION (Previous / Next)
-======================================== */
-
-.flower-pager {
+/* Matches the flower-pagination element created by customise.js */
+.flower-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,42 +337,34 @@
     margin-top: 20px;
 }
 
-.flower-pager[hidden] {
-    display: none !important;
+.flower-pagination:empty {
+    display: none;
 }
 
-.flower-pager button {
-    min-width: 96px;
-    padding: 9px 18px;
-    border: 1px solid #292929;
+.flower-pagination button {
+    min-width: 90px;
+    padding: 9px 14px;
+    border: 1px solid var(--text);
     border-radius: 6px;
     background: white;
-    color: #292929;
+    color: var(--text);
     cursor: pointer;
-    font: inherit;
-    font-size: 14px;
+    font-size: 13px;
 }
 
-.flower-pager button:hover:not(:disabled) {
-    background: #292929;
+.flower-pagination button:hover:not(:disabled) {
+    background: var(--text);
     color: white;
 }
 
-.flower-pager button:disabled {
+.flower-pagination button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
 
-.flower-pager button:focus-visible {
-    outline: 2px solid #292929;
-    outline-offset: 3px;
-}
-
-.flower-pager-label {
-    min-width: 90px;
-    color: #777;
+.flower-pagination span {
+    color: var(--muted);
     font-size: 13px;
-    text-align: center;
 }
 
 /* ========================================
@@ -253,7 +385,7 @@
     border: 1px solid #ddd;
     border-radius: 6px;
     background: white;
-    color: #292929;
+    color: var(--text);
     cursor: pointer;
     font-size: 18px;
 }
@@ -273,7 +405,7 @@
 }
 
 /* ========================================
-   CUSTOMISATION OPTION CARDS
+   CUSTOMIZATION OPTIONS
 ======================================== */
 
 .custom-option-grid {
@@ -288,18 +420,14 @@
     align-items: stretch;
     gap: 10px;
     padding: 0 0 14px;
-    color: #292929;
+    color: var(--text);
     text-align: left;
     cursor: pointer;
-    font: inherit;
-    border: 1px solid #e5e5e5;
-    background: white;
 }
 
 .selectable-option strong,
 .selectable-option > span:not(.option-image-placeholder) {
-    margin-right: 14px;
-    margin-left: 14px;
+    margin: 0 14px;
 }
 
 .selectable-option > span:last-child {
@@ -312,19 +440,21 @@
 }
 
 .selectable-option.selected {
-    border: 2px solid #292929;
+    border: 2px solid var(--text);
     background: #f8f8f8;
 }
 
 .selectable-option:focus-visible,
 .quantity-control button:focus-visible,
-.step-navigation button:focus-visible {
-    outline: 2px solid #292929;
+.step-navigation button:focus-visible,
+.category-pick:focus-visible,
+.flower-back:focus-visible {
+    outline: 2px solid var(--text);
     outline-offset: 3px;
 }
 
 /* ========================================
-   BACK / NEXT BUTTONS
+   STEP NAVIGATION
 ======================================== */
 
 .step-navigation {
@@ -337,21 +467,16 @@
 .step-navigation button {
     min-width: 110px;
     padding: 12px 22px;
-    border: 1px solid #292929;
+    border: 1px solid var(--text);
     border-radius: 6px;
     background: white;
-    color: #292929;
+    color: var(--text);
     cursor: pointer;
-    font: inherit;
 }
 
 .step-navigation #next-step {
-    background: #292929;
+    background: var(--text);
     color: white;
-}
-
-.step-navigation button:hover:not(:disabled) {
-    opacity: 0.85;
 }
 
 .step-navigation button:disabled {
@@ -360,21 +485,164 @@
 }
 
 /* ========================================
-   LIVE PREVIEW PANEL
+   AI DESIGNER
 ======================================== */
 
 .live-preview {
     position: sticky;
-    top: 24px;
-    min-width: 0;
+    top: 16px;
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border);
     border-radius: 12px;
     background: white;
 }
 
+.ai-bouquet-generator {
+    padding: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.ai-bouquet-header h2 {
+    margin: 8px 0;
+    font-size: 21px;
+}
+
+.ai-bouquet-header > p:last-child,
+.ai-bouquet-input small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.ai-bouquet-input label {
+    display: block;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#ai-bouquet-prompt {
+    display: block;
+    width: 100%;
+    min-height: 86px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #ded6cf;
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+#ai-bouquet-prompt:focus {
+    border-color: #8b7565;
+    outline: 2px solid rgba(139, 117, 101, 0.12);
+}
+
+#generate-ai-bouquet {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 11px 14px;
+    border: 1px solid #51443b;
+    border-radius: 8px;
+    background: #51443b;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#generate-ai-bouquet:hover:not(:disabled) {
+    background: #392e27;
+}
+
+#generate-ai-bouquet:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+#ai-bouquet-status {
+    margin: 10px 0 0;
+    color: #74675e;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#ai-bouquet-status[hidden],
+#ai-bouquet-results[hidden],
+#ai-bouquet-materials[hidden] {
+    display: none !important;
+}
+
+#ai-bouquet-results {
+    margin-top: 16px;
+}
+
+#ai-bouquet-results h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+}
+
+#ai-bouquet-images {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.ai-bouquet-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    padding: 5px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    color: #51443b;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ai-bouquet-card img {
+    display: block;
+    width: 100%;
+    height: 90px;
+    border-radius: 6px;
+    background: #faf7f4;
+    object-fit: contain;
+}
+
+.ai-bouquet-card span {
+    padding: 2px;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.ai-bouquet-card:hover {
+    border-color: #a68b78;
+}
+
+.ai-bouquet-card.selected {
+    padding: 4px;
+    border: 2px solid #78604f;
+    background: #fdfaf7;
+}
+
+.ai-bouquet-card:focus-visible {
+    outline: 2px solid #78604f;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   AI-ONLY LIVE PREVIEW
+======================================== */
+
 .preview-heading {
-    padding: 22px 22px 10px;
+    padding: 18px 18px 10px;
 }
 
 .preview-heading > span {
@@ -384,41 +652,38 @@
 }
 
 .preview-heading h2 {
-    margin: 10px 0 6px;
-    font-size: 23px;
+    margin: 7px 0 5px;
+    font-size: 21px;
 }
 
 .preview-heading p {
-    margin-bottom: 0;
-    color: #777;
+    margin: 0;
+    color: var(--muted);
     font-size: 12px;
     line-height: 1.5;
 }
 
-/* ========================================
-   BOUQUET PREVIEW CANVAS
-======================================== */
-
 .preview-image-area {
     position: relative;
-    display: block;
-    height: 460px;
-    margin: 0 20px;
-    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 340px;
+    margin: 0 14px;
+    padding: 8px;
     overflow: hidden;
     border-radius: 8px;
-    background: #f5f1ed;
+    background: var(--soft);
 }
 
 #preview-empty {
-    position: absolute;
-    inset: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     padding: 20px;
-    color: #777;
+    color: var(--muted);
     text-align: center;
     font-size: 13px;
     line-height: 1.6;
@@ -433,163 +698,56 @@
     display: none !important;
 }
 
-#preview-content[hidden] {
-    display: none !important;
-}
-
-#preview-content.bouquet-composition {
-    /* Penalaan saiz & kedudukan bouquet (kurangkan --bouquet-top untuk naikkan ke atas) */
-    --preview-scale: 1.48;
-    --bouquet-top: 40%;
-
-    /* Penalaan ribbon: laras --ribbon-bottom supaya duduk tepat pada ikatan wrapping */
-    --ribbon-width: 22%;
-    --ribbon-bottom: 19%;
-
-    /* Pudarkan kaki/batang bunga lebih awal dan lebih lembut ke dalam wrapper */
-    --flower-fade-from: 50%;
-    --flower-fade-to: 66%;
-
+#ai-live-preview-image {
     position: absolute;
-    top: var(--bouquet-top);
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(var(--preview-scale));
-    width: min(350px, 100%);
-    height: 340px;
-    text-align: center;
-    isolation: isolate;
-}
-.bouquet-backdrop {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    transition: background 0.3s ease;
-}
-
-.bouquet-layer {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-}
-
-.wrapping-layer {
-    z-index: 1;
-}
-
-.flowers-layer {
-    z-index: 2;
-
-    /*
-       Keep the flower heads visible and gradually fade the lower stems
-       into the wrapper. This is a visual blend; a true front paper flap
-       requires a separate foreground wrapper image/layer.
-    */
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 var(--flower-fade-from, 58%),
-        rgba(0, 0, 0, 0.85) 59%,
-        transparent var(--flower-fade-to, 69%)
-    );
-    mask-image: linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 var(--flower-fade-from, 58%),
-        rgba(0, 0, 0, 0.85) 59%,
-        transparent var(--flower-fade-to, 69%)
-    );
-}
-
-.ribbon-layer {
-    z-index: 3;
-}
-
-.bouquet-layer img.preview-flower-image {
-    position: absolute;
-    inset: auto;
-    width: 30%; /* customise.js overrides this based on flower count */
-    height: auto;
-    max-width: none;
-    max-height: none;
-    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    transform: translate(-50%, -50%);
     object-fit: contain;
     object-position: center;
-    transform-origin: center bottom;
-    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.18));
-}
-
-.bouquet-layer img.preview-flower-image.is-fallback {
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-}
-
-.bouquet-layer img.preview-wrapping-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: bottom center;
-}
-
-/* Ribbon: kecil, di tengah, duduk di bahagian ikatan wrapping */
-.bouquet-layer img.preview-ribbon-image {
-    position: absolute;
-    inset: auto;
-    left: 50%;
-    bottom: var(--ribbon-bottom, 19%);
-    width: var(--ribbon-width, 22%);
-    height: auto;
-    max-height: 40%;
-    transform: translateX(-50%);
-    object-fit: contain;
-    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
-}
-
-.bouquet-preview-labels {
-    position: absolute;
-    z-index: 5;
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    pointer-events: none;
-}
-
-.bouquet-preview-labels span:empty {
-    display: none;
-}
-
-.bouquet-preview-labels span:not(:empty) {
-    padding: 4px 9px;
-    border: 1px solid #e5e5e5;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.92);
-    color: #444;
-    font-size: 11px;
 }
 
 /* ========================================
-   SELECTED ITEMS AND TOTAL
+   MATERIALS & PRICE SUMMARY
 ======================================== */
 
+#ai-bouquet-materials {
+    margin: 14px 18px 0;
+    padding: 14px;
+    border: 1px solid #e8dfd7;
+    border-radius: 10px;
+    background: #faf7f4;
+}
+
+#ai-bouquet-materials h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+#ai-bouquet-materials p,
+#ai-bouquet-materials small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+#ai-bouquet-material-list {
+    font-size: 13px;
+    line-height: 1.7;
+}
+
 .preview-summary {
-    padding: 22px;
+    padding: 18px;
 }
 
 .preview-summary h3 {
-    margin: 0 0 16px;
+    margin: 0 0 14px;
     font-size: 16px;
 }
 
@@ -598,7 +756,7 @@
     gap: 10px;
 }
 
-.selection-line {
+.preview-selection-item {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -607,19 +765,19 @@
     line-height: 1.5;
 }
 
-.selection-line span:first-child {
+.preview-selection-item span:first-child {
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
-.selection-line span:last-child {
+.preview-selection-item span:last-child {
     flex-shrink: 0;
     text-align: right;
 }
 
 .empty-selection {
     margin: 0;
-    color: #777;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -628,9 +786,9 @@
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid #e5e5e5;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
 }
 
 .preview-total span {
@@ -642,39 +800,29 @@
     white-space: nowrap;
 }
 
-.preview-disclaimer {
-    margin: 16px 0 0;
-    color: #777;
+.preview-disclaimer,
+.review-note {
+    margin-top: 14px;
+    color: var(--muted);
     font-size: 12px;
     line-height: 1.6;
 }
 
 /* ========================================
-   REVIEW STEP
-======================================== */
-
-.review-note {
-    margin-top: 20px;
-    color: #777;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-/* ========================================
-   RESPONSIVE (TABLET & MOBILE)
+   RESPONSIVE
 ======================================== */
 
 @media (max-width: 1100px) {
     .flower-options {
-        --flower-cols: 3;   /* 3 x 2 = 6 bunga setiap halaman */
+        --flower-cols: 3;
+    }
+
+    .flower-categories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 800px) {
-    .flower-options {
-        --flower-cols: 4;   /* lajur kiri penuh lebar, muat 4 x 2 = 8 */
-    }
-
     .customise-layout {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -682,6 +830,14 @@
     .live-preview {
         position: static;
         grid-row: 1;
+    }
+
+    .flower-options {
+        --flower-cols: 4;
+    }
+
+    .flower-categories {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .customise-progress {
@@ -692,19 +848,9 @@
         font-size: 10px;
         text-align: center;
     }
-
-    .preview-image-area {
-        min-height: 360px;
-    }
 }
 
 @media (max-width: 560px) {
-    .flower-options {
-        --flower-cols: 2;   /* telefon: 2 x 2 = 4 bunga setiap halaman */
-    }
-}
-
-@media (max-width: 480px) {
     .customise-page {
         --page-pull: 50px;
         padding: 12px 14px 45px;
@@ -712,12 +858,10 @@
 
     .customise-header h1 {
         font-size: 26px;
-        line-height: 1.3;
     }
 
     .customise-progress {
         gap: 4px;
-        margin-bottom: 26px;
     }
 
     .progress-step {
@@ -734,13 +878,18 @@
         font-size: 9px;
     }
 
-    .flower-options,
-    .custom-option-grid {
+    .flower-options {
+        --flower-cols: 2;
+        gap: 10px;
+    }
+
+    .flower-categories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
 
     .custom-option-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
 
     .flower-option > img,
@@ -757,194 +906,29 @@
         overflow-wrap: anywhere;
     }
 
-    .preview-image-area {
-        height: 340px;
-        margin-right: 12px;
-        margin-left: 12px;
+    #ai-bouquet-images {
+        gap: 6px;
     }
 
-    #preview-content.bouquet-composition {
-        --preview-scale: 1.32;
-        --bouquet-top: 40%;
-        --ribbon-width: 22%;
-        --ribbon-bottom: 18%;
-        width: min(310px, 100%);
+    .ai-bouquet-card {
+        gap: 5px;
+        padding: 4px;
+    }
+
+    .ai-bouquet-card img {
+        height: 76px;
+    }
+
+    .ai-bouquet-card span {
+        font-size: 11px;
+    }
+
+    .preview-image-area {
         height: 290px;
     }
 
     .step-navigation button {
         min-width: 0;
         padding: 11px 18px;
-    }
-}
-
-/* ========================================
-   STEP 1: CATEGORY PICKER (pilih kategori dahulu)
-======================================== */
-
-.flower-categories[hidden],
-.flower-browser[hidden],
-.flower-browser-bar[hidden],
-.flower-empty[hidden] {
-    display: none !important;
-}
-
-.flower-categories {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-}
-
-.category-pick {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 3;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    border-radius: 12px;
-    background: #f3e6ea;
-    color: #fff;
-    cursor: pointer;
-    font: inherit;
-    text-align: left;
-}
-
-.category-pick img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-}
-
-.category-pick:hover img {
-    transform: scale(1.06);
-}
-
-.category-pick-noimg {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-    color: #777;
-    font-size: 13px;
-}
-
-.category-pick::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(29, 21, 23, 0.6), rgba(29, 21, 23, 0.05) 65%);
-    pointer-events: none;
-}
-
-.category-pick-info {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    padding: 14px;
-}
-
-.category-pick-info strong {
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-}
-
-.category-pick-info small {
-    display: block;
-    margin-top: 3px;
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.category-pick-selected {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 2;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: #fff;
-    color: #292929;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.category-pick-selected[hidden] {
-    display: none !important;
-}
-
-.category-pick:focus-visible {
-    outline: 2px solid #292929;
-    outline-offset: 3px;
-}
-
-.flower-browser-bar {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
-}
-
-.flower-back {
-    padding: 8px 16px;
-    border: 1px solid #292929;
-    border-radius: 6px;
-    background: white;
-    color: #292929;
-    cursor: pointer;
-    font: inherit;
-    font-size: 14px;
-}
-
-.flower-back:hover {
-    background: #292929;
-    color: white;
-}
-
-.flower-back:focus-visible {
-    outline: 2px solid #292929;
-    outline-offset: 3px;
-}
-
-#flower-category-name {
-    font-size: 18px;
-}
-
-.flower-empty {
-    margin: 12px 0 0;
-    color: #777;
-    font-size: 14px;
-}
-
-@media (max-width: 1100px) {
-    .flower-categories {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 800px) {
-    .flower-categories {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 560px) {
-    .flower-categories {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
-
-    .category-pick-info {
-        padding: 10px;
-    }
-
-    .category-pick-info strong {
-        font-size: 14px;
     }
 }
