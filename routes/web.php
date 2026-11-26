@@ -119,7 +119,6 @@ Route::middleware('auth')->group(function () {
         'store'
     ])->name('admin.customisation.store');
 
-    // Update customisation option
     Route::put('/admin/customisation/{customisationOption}', [
         CustomisationOptionController::class,
         'update'

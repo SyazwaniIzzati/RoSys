@@ -1,8 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const $ = (selector, parent = document) => parent.querySelector(selector);
-    const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
-    const money = value => `RM ${Number(value || 0).toFixed(2)}`;
+    const $$ = (selector, parent = document) => [
+        ...parent.querySelectorAll(selector),
+    ];
+    const money = (value) => `RM ${Number(value || 0).toFixed(2)}`;
 
     const steps = $$(".customise-step");
     const progress = $$(".progress-step");
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapping: null,
         ribbon: null,
         theme_colour: null,
-        bouquet_style: null
+        bouquet_style: null,
     };
 
     let currentStep = 0;
@@ -46,11 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---------------- HELPERS ----------------
 
     function getTotal() {
-        const flowersTotal = [...selectedFlowers.values()]
-            .reduce((sum, flower) => sum + flower.price * flower.quantity, 0);
+        const flowersTotal = [...selectedFlowers.values()].reduce(
+            (sum, flower) => sum + flower.price * flower.quantity,
+            0,
+        );
 
-        const optionsTotal = Object.values(selectedOptions)
-            .reduce((sum, option) => sum + (option?.price || 0), 0);
+        const optionsTotal = Object.values(selectedOptions).reduce(
+            (sum, option) => sum + (option?.price || 0),
+            0,
+        );
 
         return flowersTotal + optionsTotal;
     }
@@ -127,14 +132,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         previewSelections.replaceChildren();
 
-        selectedFlowers.forEach(flower => {
+        selectedFlowers.forEach((flower) => {
             addSelectionLine(
                 `${flower.name} × ${flower.quantity}`,
-                money(flower.price * flower.quantity)
+                money(flower.price * flower.quantity),
             );
         });
 
-        Object.values(selectedOptions).forEach(option => {
+        Object.values(selectedOptions).forEach((option) => {
             if (option) addSelectionLine(option.name, money(option.price));
         });
 
@@ -147,8 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         previewTotal.textContent = money(getTotal());
 
         if (previewTheme) {
-            previewTheme.textContent =
-                selectedOptions.theme_colour?.name || "";
+            previewTheme.textContent = selectedOptions.theme_colour?.name || "";
         }
 
         if (previewStyle) {
@@ -161,35 +165,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function parseMaterials(prompt) {
         const flowers = [
-            "roses", "tulips", "baby's breath", "baby breath",
-            "leaves", "branches", "sunflowers", "lilies",
-            "carnations", "daisies", "orchids"
+            "roses",
+            "tulips",
+            "baby's breath",
+            "baby breath",
+            "leaves",
+            "branches",
+            "sunflowers",
+            "lilies",
+            "carnations",
+            "daisies",
+            "orchids",
         ];
 
         const found = [];
         const text = prompt.toLowerCase();
 
-        flowers.forEach(name => {
+        flowers.forEach((name) => {
             const pattern = new RegExp(
                 `(\\d+)\\s*(?:stems?\\s+of\\s+)?${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`,
-                "i"
+                "i",
             );
 
             const match = text.match(pattern);
 
             if (match) {
                 found.push({
-                    name: name.replace(/\b\w/g, char => char.toUpperCase()),
-                    quantity: Number(match[1])
+                    name: name.replace(/\b\w/g, (char) => char.toUpperCase()),
+                    quantity: Number(match[1]),
                 });
             }
         });
 
-        const wrapping = text.match(/(?:wrapping|wrapper)\s*[:=-]?\s*([a-z ]+)/i);
+        const wrapping = text.match(
+            /(?:wrapping|wrapper)\s*[:=-]?\s*([a-z ]+)/i,
+        );
         const ribbon = text.match(/ribbon\s*[:=-]?\s*([a-z ]+)/i);
 
         if (wrapping) {
-            found.push({ name: `Wrapping: ${wrapping[1].trim()}`, quantity: null });
+            found.push({
+                name: `Wrapping: ${wrapping[1].trim()}`,
+                quantity: null,
+            });
         }
 
         if (ribbon) {
@@ -209,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        selectedAiMaterials.forEach(item => {
+        selectedAiMaterials.forEach((item) => {
             const li = document.createElement("li");
             li.textContent = item.quantity
                 ? `${item.name} × ${item.quantity}`
@@ -236,7 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
         isGenerating = true;
         generateBtn.disabled = true;
 
-        if (aiStatus) aiStatus.textContent = "Generating your bouquet designs...";
+        if (aiStatus)
+            aiStatus.textContent = "Generating your bouquet designs...";
         if (aiResults) aiResults.hidden = true;
         if (aiImages) aiImages.replaceChildren();
 
@@ -249,16 +267,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "X-CSRF-TOKEN": token || ""
+                    Accept: "application/json",
+                    "X-CSRF-TOKEN": token || "",
                 },
-                body: JSON.stringify({ prompt })
+                body: JSON.stringify({ prompt }),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || "Unable to generate bouquet images.");
+                throw new Error(
+                    data.message || "Unable to generate bouquet images.",
+                );
             }
 
             if (!Array.isArray(data.images) || data.images.length === 0) {
@@ -285,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.append(image, label);
 
                 card.addEventListener("click", () => {
-                    $$(".ai-bouquet-card", aiImages).forEach(button => {
+                    $$(".ai-bouquet-card", aiImages).forEach((button) => {
                         button.classList.remove("selected");
                         button.setAttribute("aria-pressed", "false");
                     });
@@ -311,13 +331,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (aiResults) aiResults.hidden = false;
             if (aiStatus) {
-                aiStatus.textContent = "Choose a design to display it in Live Preview.";
+                aiStatus.textContent =
+                    "Choose a design to display it in Live Preview.";
             }
         } catch (error) {
             console.error(error);
             if (aiStatus) {
                 aiStatus.textContent =
-                    error.message || "Unable to generate bouquet images. Please try again.";
+                    error.message ||
+                    "Unable to generate bouquet images. Please try again.";
             }
         } finally {
             isGenerating = false;
@@ -338,10 +360,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let flowerPage = 0;
 
     function updateCategoryCounts() {
-        $$(".category-pick").forEach(button => {
+        $$(".category-pick").forEach((button) => {
             const id = String(button.dataset.categoryId);
             const count = [...selectedFlowers.values()]
-                .filter(flower => String(flower.categoryId) === id)
+                .filter((flower) => String(flower.categoryId) === id)
                 .reduce((sum, flower) => sum + flower.quantity, 0);
 
             const badge = $(".category-count", button);
@@ -358,12 +380,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pickerVisible) return;
 
         const cards = $$(".flower-option");
-        const filtered = cards.filter(card =>
-            activeCategory === "all" ||
-            String(card.dataset.categoryId) === String(activeCategory)
+        const filtered = cards.filter(
+            (card) =>
+                activeCategory === "all" ||
+                String(card.dataset.categoryId) === String(activeCategory),
         );
 
-        cards.forEach(card => {
+        cards.forEach((card) => {
             card.hidden = !filtered.includes(card);
         });
 
@@ -372,12 +395,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (categoryName) categoryName.textContent = category;
         if (flowerDescription) {
-            flowerDescription.textContent = first?.dataset.categoryDescription || "";
+            flowerDescription.textContent =
+                first?.dataset.categoryDescription || "";
         }
 
         const grid = first ? $(".flower-options", first.parentElement) : null;
         const columns = grid
-            ? Number(getComputedStyle(grid).getPropertyValue("--flower-cols")) || 3
+            ? Number(
+                  getComputedStyle(grid).getPropertyValue("--flower-cols"),
+              ) || 3
             : 3;
 
         const pageSize = columns * FLOWER_ROWS;
@@ -386,7 +412,8 @@ document.addEventListener("DOMContentLoaded", () => {
         flowerPage = Math.min(flowerPage, pageCount - 1);
 
         filtered.forEach((card, index) => {
-            card.hidden = index < flowerPage * pageSize ||
+            card.hidden =
+                index < flowerPage * pageSize ||
                 index >= (flowerPage + 1) * pageSize;
         });
 
@@ -418,7 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     button("Previous", flowerPage === 0, () => {
                         flowerPage--;
                         renderFlowerView();
-                    })
+                    }),
                 );
 
                 const label = document.createElement("span");
@@ -429,13 +456,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     button("Next", flowerPage >= pageCount - 1, () => {
                         flowerPage++;
                         renderFlowerView();
-                    })
+                    }),
                 );
             }
         }
     }
 
-    $$(".category-pick").forEach(button => {
+    $$(".category-pick").forEach((button) => {
         button.addEventListener("click", () => {
             activeCategory = button.dataset.categoryId || "all";
             flowerPage = 0;
@@ -451,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------------- FLOWER QUANTITIES ----------------
 
-    $$(".flower-option").forEach(card => {
+    $$(".flower-option").forEach((card) => {
         const id = String(card.dataset.flowerId);
         const name = card.dataset.flowerName;
         const price = Number(card.dataset.flowerPrice || 0);
@@ -469,7 +496,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (quantity > 0) {
                 selectedFlowers.set(id, {
-                    id, name, price, quantity, categoryId
+                    id,
+                    name,
+                    price,
+                    quantity,
+                    categoryId,
                 });
             } else {
                 selectedFlowers.delete(id);
@@ -490,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------------- CUSTOMIZATION OPTIONS ----------------
 
-    $$(".selectable-option").forEach(card => {
+    $$(".selectable-option").forEach((card) => {
         card.setAttribute("aria-pressed", "false");
 
         card.addEventListener("click", () => {
@@ -499,10 +530,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const isSelected = card.classList.contains("selected");
 
-            $$(`.selectable-option[data-option-type="${type}"]`).forEach(option => {
-                option.classList.remove("selected");
-                option.setAttribute("aria-pressed", "false");
-            });
+            $$(`.selectable-option[data-option-type="${type}"]`).forEach(
+                (option) => {
+                    option.classList.remove("selected");
+                    option.setAttribute("aria-pressed", "false");
+                },
+            );
 
             selectedOptions[type] = null;
 
@@ -513,7 +546,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedOptions[type] = {
                     id: card.dataset.optionId,
                     name: card.dataset.optionName,
-                    price: Number(card.dataset.optionPrice || 0)
+                    price: Number(card.dataset.optionPrice || 0),
                 };
             }
 
@@ -528,20 +561,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         reviewSummary.replaceChildren();
 
-        selectedFlowers.forEach(flower => {
+        selectedFlowers.forEach((flower) => {
             addReviewLine(
                 `${flower.name} × ${flower.quantity}`,
-                money(flower.price * flower.quantity)
+                money(flower.price * flower.quantity),
             );
         });
 
-        Object.values(selectedOptions).forEach(option => {
+        Object.values(selectedOptions).forEach((option) => {
             if (option) addReviewLine(option.name, money(option.price));
         });
 
         addReviewLine(
-            selectedAiUrl?.value ? "AI bouquet design selected" : "AI bouquet design not selected",
-            ""
+            selectedAiUrl?.value
+                ? "AI bouquet design selected"
+                : "AI bouquet design not selected",
+            "",
         );
 
         addReviewLine("Total", money(getTotal()));
@@ -571,14 +606,20 @@ document.addEventListener("DOMContentLoaded", () => {
             step.classList.toggle("completed", index < currentStep);
         });
 
-        if (prevBtn) prevBtn.hidden = currentStep === 0;
+        // Keep Back button visible on every step
+        if (prevBtn) {
+            prevBtn.hidden = false;
+            prevBtn.disabled = currentStep === 0;
+        }
 
         if (nextBtn) {
             nextBtn.textContent =
                 currentStep === steps.length - 1 ? "Add to Cart" : "Next";
         }
 
-        if (currentStep === steps.length - 1) renderReview();
+        if (currentStep === steps.length - 1) {
+            renderReview();
+        }
     }
 
     prevBtn?.addEventListener("click", () => {
@@ -625,7 +666,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageResponse = await fetch(selectedAiUrl.value);
 
             if (!imageResponse.ok) {
-                throw new Error("Unable to retrieve the selected bouquet image.");
+                throw new Error(
+                    "Unable to retrieve the selected bouquet image.",
+                );
             }
 
             const blob = await imageResponse.blob();
@@ -634,14 +677,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error("The selected design is not a valid image.");
             }
 
-            const extension = blob.type.includes("webp") ? "webp"
-                : blob.type.includes("png") ? "png" : "jpg";
+            const extension = blob.type.includes("webp")
+                ? "webp"
+                : blob.type.includes("png")
+                  ? "png"
+                  : "jpg";
 
-            const imageFile = new File(
-                [blob],
-                `bouquet-ai.${extension}`,
-                { type: blob.type }
-            );
+            const imageFile = new File([blob], `bouquet-ai.${extension}`, {
+                type: blob.type,
+            });
 
             const imageInput = $("#preview-image-input");
 
@@ -652,7 +696,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Remove fields created by any previous attempt.
-            $$('input[data-generated="true"]', form).forEach(input => input.remove());
+            $$('input[data-generated="true"]', form).forEach((input) =>
+                input.remove(),
+            );
 
             const addHidden = (name, value) => {
                 const input = document.createElement("input");
@@ -672,7 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 wrapping: "wrapping_option_id",
                 ribbon: "ribbon_option_id",
                 theme_colour: "theme_colour_option_id",
-                bouquet_style: "bouquet_style_option_id"
+                bouquet_style: "bouquet_style_option_id",
             };
 
             Object.entries(optionFields).forEach(([key, field]) => {
@@ -683,9 +729,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const specialRequest =
                 `AI design prompt: ${selectedAiPrompt}\n` +
-                `Suggested materials: ${selectedAiMaterials.map(item =>
-                    item.quantity ? `${item.name} × ${item.quantity}` : item.name
-                ).join(", ") || "Not specified"}`;
+                `Suggested materials: ${
+                    selectedAiMaterials
+                        .map((item) =>
+                            item.quantity
+                                ? `${item.name} × ${item.quantity}`
+                                : item.name,
+                        )
+                        .join(", ") || "Not specified"
+                }`;
 
             const requestField =
                 $('textarea[name="special_request"]', form) ||

@@ -23,9 +23,7 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::check()) {
                 $cartCount = CartItems::whereHas('cart', function ($query) {
                     $query->where('user_id', Auth::id());
-                })
-                    ->distinct()
-                    ->count('flower_id');
+                })->sum('quantity');
             }
 
             $view->with('cartCount', $cartCount);
